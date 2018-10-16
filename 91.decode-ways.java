@@ -41,6 +41,7 @@
  */
 class Solution {
     public int numDecodings(String s) {
+<<<<<<< HEAD
        return helper(s, 0);
     }
 
@@ -68,5 +69,8 @@ class Solution {
 	return helper(s, pos + 1) +
 		((getSecond) ? helper(s, pos + 2) : 0);
 		
+=======
+        
+>>>>>>> 58d0397d87381d6a7fc8960bac7255acb233bf3a
     }
 }
