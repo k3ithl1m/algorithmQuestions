@@ -41,7 +41,7 @@
  */
 class Solution {
     public int numDecodings(String s) {
-       return helper(s, 0);
+        return helper(s, 0);
     }
 
     /**
