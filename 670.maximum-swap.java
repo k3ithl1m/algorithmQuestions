@@ -39,6 +39,27 @@
  */
 class Solution {
     public int maximumSwap(int num) {
-        
+	String str = String.valueOf(num);
+	boolean switched = false;
+	int max = num;
+	for (int i = 0; i < str.length(); i++) {
+	    for (int j = i+1; j < str.length(); j++) {
+		int ipos = Character.getNumericValue(str.charAt(i));
+		int jpos = Character.getNumericValue(str.charAt(j));
+		if (ipos < jpos) {
+		    int temp = num;
+		    System.out.println(ipos + " " + jpos + " " + str + " " + i
+				    + " " + j);
+		    temp = temp - (int) Math.pow(10, str.length() -1 - i) * ipos
+			    + (int) Math.pow(10, str.length() -1 - i) * jpos
+			    - (int) Math.pow(10, str.length() -1 - j) * jpos
+			    + (int) Math.pow(10, str.length() -1 - j) * ipos;
+		    switched = true;
+		    if (temp > max) max = temp;
+		}
+	    }
+	    if (switched) break;
+	}
+	return max;
     }
 }
