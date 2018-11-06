@@ -45,7 +45,47 @@
  * }
  */
 class Solution {
+	// have a treeContainerClass that could tell whether we should
+	// go from left to right or right to left
+	// do a breadth first search where the branches of the root
+	// is entered into the queue based on the leftToRight boolean
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
-        
+	if (root == null) return new ArrayList<List<Integer>>();
+	Queue<TreeContainer> q = new LinkedList<TreeContainer>();
+	Stack<TreeContainer> s = new Stack<TreeContainer>();
+	q.add(new TreeContainer(root, true));
+	boolean newLevel = true;
+	ArrayList<Integer> ar = new ArrayList<Integer>();
+	ArrayList<List<Integer>> result = new ArrayList<List<Integer>>();
+	while(!q.isEmpty() || !s.isEmpty()) {
+	    if (q.isEmpty() || s.isEmpty()) {
+		result.add(ar);
+		ar = new ArrayList<Integer>();
+		newLevel = !newLevel;
+	    }
+	    TreeContainer tc = newLevel ? q.remove() : s.pop();
+	    if (tc.root != null) { 
+		    TreeNode temp = tc.root;
+		    ar.add(tc.root.val);
+		    if (tc.leftToRight) {
+			s.push(new TreeContainer(temp.left, false));
+			s.push(new TreeContainer(temp.right, false));
+		    } else {
+			q.add(new TreeContainer(temp.left, true));
+			q.add(new TreeContainer(temp.right, true));
+		    }
+	    }
+	}
+	result.add(ar);
+	return result; 
+    }
+}
+
+class TreeContainer {
+    TreeNode root;
+    boolean leftToRight;
+    TreeContainer(TreeNode root, boolean leftToRight) {
+	this.root = root;
+	this.leftToRight = leftToRight;
     }
 }
