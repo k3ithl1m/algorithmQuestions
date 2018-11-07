@@ -51,33 +51,57 @@ class Solution {
 	// is entered into the queue based on the leftToRight boolean
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
 	if (root == null) return new ArrayList<List<Integer>>();
-	Queue<TreeContainer> q = new LinkedList<TreeContainer>();
-	Stack<TreeContainer> s = new Stack<TreeContainer>();
-	q.add(new TreeContainer(root, true));
+	Stack<TreeContainer> s1 = new Stack<TreeContainer>();
+	Stack<TreeContainer> s2 = new Stack<TreeContainer>();
+	s1.push(new TreeContainer(root, true));
 	boolean newLevel = true;
 	ArrayList<Integer> ar = new ArrayList<Integer>();
 	ArrayList<List<Integer>> result = new ArrayList<List<Integer>>();
-	while(!q.isEmpty() || !s.isEmpty()) {
-	    if (q.isEmpty() || s.isEmpty()) {
+	while(!s1.isEmpty() || !s2.isEmpty()) {
+	    TreeContainer tc = newLevel ? s1.pop() : s2.pop();
+	    if (tc.root != null) { 
+		    TreeNode temp = tc.root;
+		    ar.add(tc.root.val);
+		    if (!tc.leftToRight) {
+			if (temp.right != null) s1.push(new TreeContainer(temp.right, true));
+			if (temp.left != null) s1.push(new TreeContainer(temp.left, true));
+		    } else {
+			if (temp.left != null) s2.push(new TreeContainer(temp.left, false));
+			if (temp.right != null) s2.push(new TreeContainer(temp.right, false));
+		    }
+	    }
+	    if ((newLevel && s1.isEmpty()) || (!newLevel && s2.isEmpty())) {
 		result.add(ar);
 		ar = new ArrayList<Integer>();
 		newLevel = !newLevel;
 	    }
-	    TreeContainer tc = newLevel ? q.remove() : s.pop();
-	    if (tc.root != null) { 
-		    TreeNode temp = tc.root;
-		    ar.add(tc.root.val);
-		    if (tc.leftToRight) {
-			s.push(new TreeContainer(temp.left, false));
-			s.push(new TreeContainer(temp.right, false));
-		    } else {
-			q.add(new TreeContainer(temp.left, true));
-			q.add(new TreeContainer(temp.right, true));
-		    }
-	    }
 	}
-	result.add(ar);
 	return result; 
+    }
+
+    //this is actually f$cking ingenius
+    public void traverse(TreeNode root, List<List<Integer>> res, int depth)
+    {
+        if (root == null) return;
+        
+        if (res.size() <= depth)
+            res.add(new ArrayList<>());
+        
+        List<Integer> lst = res.get(depth);
+        
+        if (depth % 2 == 0) lst.add(root.val);
+        else lst.add(0, root.val);
+            
+        traverse(root.left,  res, depth + 1);
+        traverse(root.right, res, depth + 1);
+        
+    }
+    
+    public List<List<Integer>> zigzagLevelOrder2(TreeNode root) 
+    {
+        List<List<Integer>> res = new ArrayList<>();
+        traverse(root, res, 0);
+        return res;
     }
 }
 
