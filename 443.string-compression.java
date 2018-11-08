@@ -114,6 +114,34 @@ class Solution {
     //     right++;
     //   return left+1;
     public int compress(char[] chars) {
-        
+	if (chars.length == 1 || chars.length == 0) return chars.length;
+	char tempChar = chars[0];
+	int count = 1, left = 0, right = 1;
+	while (right < chars.length) {
+	    if (chars[right] == tempChar) {
+		count++;
+	    } else {
+		if (count > 1) {
+		    String strCount = String.valueOf(count);
+	 	    for(char c: strCount.toCharArray() ) {
+			left++;
+			chars[left] = c;
+		    }
+		}
+		left++;
+		chars[left]=chars[right];
+		count=1;
+		tempChar=chars[right];
+	    }
+	    right++;
+	}
+	if (count > 1) {
+	    String strCount = String.valueOf(count);
+ 	    for(char c: strCount.toCharArray() ) {
+		left++;
+		chars[left] = c;
+	    }
+	}
+	return left+1;
     }
 }
