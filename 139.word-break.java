@@ -50,6 +50,36 @@
  */
 class Solution {
     public boolean wordBreak(String s, List<String> wordDict) {
-        
+	boolean[] sAr = new boolean[s.length()];
+	
+	ArrayList<Integer> ar = new ArrayList<Integer>();
+	ar.add(0);
+	
+	sAr[0] = true;
+	for (int i = 0; i <= sAr.length; i++) {
+//		for (int j = 0; j < i; j++) {
+//			if (sAr[j] && wordDict.contains(s.substring(j, i))) {
+//				if (i<sAr.length) sAr[i] = true;
+//				else return true;
+//			}
+//		}
+
+		for (int j = 0; j < ar.size(); j++) {
+			if(wordDict.contains(s.substring(ar.get(j), i))){
+				System.out.println(ar.get(j));
+				if (i<s.length() && !ar.contains(i)) {
+					ar.add(i);
+					continue;
+				}
+				else if (i == s.length()) {
+
+				System.out.println(s.substring(ar.get(j), i));
+					return true;
+				}
+			}
+		}
+	}
+
+	return false;
     }
 }
