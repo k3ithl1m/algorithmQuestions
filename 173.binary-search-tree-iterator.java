@@ -32,19 +32,30 @@
 
 public class BSTIterator {
 
+	Stack<TreeNode> st;
     public BSTIterator(TreeNode root) {
-        
+	st = new Stack<TreeNode>();
+	if (root != null) pushSmallest(root); 
     }
 
     /** @return whether we have a next smallest number */
     public boolean hasNext() {
-        
+       return !st.empty(); 
     }
 
     /** @return the next smallest number */
-    public int next() {
-        
+    public int next() {	
+       	TreeNode temp = st.pop();
+	pushSmallest(temp.right);
+	return temp.val; 
     }
+
+	public void pushSmallest(TreeNode root) {
+		while(root != null) {
+			st.push(root);
+			root = root.left;
+		}	
+	}
 }
 
 /**
