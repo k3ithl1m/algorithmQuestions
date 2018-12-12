@@ -28,6 +28,23 @@
  */
 class Solution {
     public int numSquares(int n) {
-        
+    	if (Math.sqrt(n) % 1 == 0) return 1;  
+	else {
+		int[] memo = new int[n + 1];
+		memo[0] = 1;
+		for (int i = 1; i <= n; i++) {
+			if (Math.sqrt(i) % 1 == 0) memo[i] = 1;
+			else {
+				int min = Integer.MAX_VALUE;
+				int j = 1;
+				while(i - j*j >= 0) {
+					min = Math.min(min, memo[i-j*j] + 1);
+					++j;
+				}
+				memo[i] = min;
+			}
+		}
+		return memo[n];
+	}
     }
 }

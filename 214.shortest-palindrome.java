@@ -32,11 +32,11 @@ class Solution {
 	StringBuilder sb = new StringBuilder();
 	int pos = 0;
 	for (int i = s.length(); i > 0; i--) {
-		System.out.println(i);
-		if (checkPalindrome(s.substring(0, i))) {
+		int check = checkPalindrome(s.substring(0, i));
+		if (check == -1) {
 			sb.append(s.substring(i, s.length()));
 			break;
-		}
+		} 
 	}
 	
 	sb.reverse();
