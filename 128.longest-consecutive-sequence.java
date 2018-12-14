@@ -26,6 +26,46 @@
  */
 class Solution {
     public int longestConsecutive(int[] nums) {
-        
+	if (nums == null || nums.length == 0) return 0;
+	HashMap<Integer, Node> hm = new HashMap<Integer, Node>();
+	for (int i : nums) {
+		Node n = new Node(i);
+		n.parent = n;
+		if (!hm.containsKey(i)) hm.put(i, n);
+	}        
+	
+	int max = 1;
+	for (int j: nums) {
+		Node n = findUnion(j, j + 1, hm);
+		if (n.rank > max) max = n.rank;
+	}
+
+	return max;
     }
+
+    public Node findUnion(int left, int right, HashMap<Integer, Node> hm) {
+	if (hm.containsKey(right) && hm.get(right).rank == 1) {
+		Node n = hm.get(left);
+		int count = n.rank;
+		n.parent = hm.get(right);
+		while(n.parent != n) {
+			n = n.parent;
+			n.rank = count;
+			count++;
+		}
+		n.rank = count;
+		return n;
+	}
+	return hm.get(left);
+    }
+}
+
+class Node {
+	int rank;
+	int val;
+	Node parent;
+	Node(int val) {
+		this.val = val;
+		this.rank = 1;
+	}
 }
