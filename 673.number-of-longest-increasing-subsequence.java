@@ -39,22 +39,31 @@
  */
 class Solution {
     public int findNumberOfLIS(int[] nums) {
-	if (nums.length <= 0) return 0;
-	ArrayList<Integer> ar = new ArrayList<Integer>();
 	int[] count = new int[nums.length];
-	count[0] = 1;
-	ar.add(nums[0]);
-	for (int i = 1; i < count.length; i++) {
-		int prev = ar.get(ar.size() - 1);
-		if (nums[i] == prev) count[i] = count[i-1]+1;
-		else if (nums[i] > prev) {
-			count[i] = count[i-1];
-			ar.add(nums[i]);
-		} else {
-			if (ar.size() <= 1 || nums[i] >= ar.get(ar.size() -2 ))  count[i] = count[i-1] +1;
-			else count[i] = count[i-1];
+	Arrays.fill(count, 1);
+	int[] length = new int[nums.length];
+	
+	for (int i = 0; i < nums.length; i++) {
+		for (int j = 0; j < i; j++) {
+			if ( nums[i]>nums[j]) {
+				if (length[j]>=length[i]) {
+					length[i] = length[j] + 1;
+					count[i] = count[j];
+				} else if (length[j] + 1 == length[i]) {
+					count[i]+=count[j];
+				}
+			}
 		}
-	}        
-	return count[nums.length-1];
+	}
+
+	int maxLength = 0, maxCount = 0;
+	for (int i : length) {
+		if ( i > maxLength) maxLength = i;
+	}
+
+	for ( int i = 0; i < length.length; i++) {
+		if ( length[i] == maxLength) maxCount += count[i];
+	}
+	return maxCount;
     }
 }

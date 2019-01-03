@@ -36,76 +36,10 @@
  */
 class Solution {
     public List<List<Integer>> palindromePairs(String[] words) {
-       	TrieNode head = new TrieNode();
-	for (int j = 0; j < words.length; j++) {
-		String word = words[j];
-		TrieNode temp = head;
-		for (int i = word.length() - 1; i >= 0; i--){
-			char c = word.charAt(i);
-			if (isPalindrome(word, 0, i)) {
-				temp.list.add(i);
-			}
-			boolean st = temp.setNode(c);
-			temp=temp.getNode(c);
-		}
-		temp.end = true;
-		temp.val = word;
-		temp.pos = j;
-	}
-
-	List<List<Integer>> results = new ArrayList<>();
-	for (int j = 0; j < words.length; j++) {
-		String word = words[j];	
-		TrieNode root = head;
-		for (int i = 0; i < word.length(); i++) {
-			if (root.end && root.pos != j && isPalindrome(word, i, word.length() - 1)) {
-				System.out.println(word.charAt(i));
-				results.add(Arrays.asList(j, root.pos));
-			}
-			
-			root = root.getNode(word.charAt(i));
-			if (root == null) {
-				break;	
-			}
-		}
-		if (root == null) continue;
-
-		for (int k : root.list) {
-			if (k == j) continue;
-			results.add(Arrays.asList(j, k));
-		}
-	}
-	return results;
     }
 
-    public boolean isPalindrome(String word, int i, int j) {
-	while (i < j) {
-		if (word.charAt(i++) != word.charAt(j--)) return false;
-	}
-	return true;
-    }
 }
 
-class TrieNode {
-	String val;
-	int pos;
-	boolean end;
-	List<Integer> list;
-	TrieNode[] tn;
-	public TrieNode() {
-		this.tn = new TrieNode[26];
-		this.end = false;
-		list = new ArrayList<>();
-	}
+Class TrieNode {
 
-	public TrieNode getNode(char c) {
-		return tn[c-'a'];
-	}
-
-	public boolean setNode(char c) {
-		if (tn[c-'a']==null) {
-			tn[c-'a'] = new TrieNode();
-			return true;
-		} else return false;
-	}
 }

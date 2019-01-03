@@ -45,25 +45,29 @@ class Solution {
     // and add the elements in. Whenever we add it in, 
     // but it will be o(nlgn)
     // lets try first`
+//    public int[] maxSlidingWindow(int[] nums, int k) {
+//	if (nums == null || nums.length == 0) return nums;
+ //      	PriorityQueue<Integer> pq = new PriorityQueue<Integer>(nums.length, Collections.reverseOrder());
+//	ArrayList<Integer> ar = new ArrayList<Integer>();
+//	for (int i = 0; i< k; i++) {
+//		pq.add(nums[i]);
+//	} 
+//	
+//	ar.add(pq.peek());
+//	for (int i = 0; i < nums.length-k; i++) {
+//		pq.remove(nums[i]);
+//		pq.add(nums[i + k]);
+//		ar.add(pq.peek());
+//	}
+//	int[] res = new int[ar.size()]; 
+//	Iterator<Integer> iterator = ar.iterator();
+//	for (int i =0; i < ar.size(); i++) {
+//		res[i] = iterator.next().intValue();
+//	}
+//	return res; 
+ //   }
+
     public int[] maxSlidingWindow(int[] nums, int k) {
-	if (nums == null || nums.length == 0) return nums;
-       	PriorityQueue<Integer> pq = new PriorityQueue<Integer>(nums.length, Collections.reverseOrder());
-	ArrayList<Integer> ar = new ArrayList<Integer>();
-	for (int i = 0; i< k; i++) {
-		pq.add(nums[i]);
-	} 
-	
-	ar.add(pq.peek());
-	for (int i = 0; i < nums.length-k; i++) {
-		pq.remove(nums[i]);
-		pq.add(nums[i + k]);
-		ar.add(pq.peek());
-	}
-	int[] res = new int[ar.size()]; 
-	Iterator<Integer> iterator = ar.iterator();
-	for (int i =0; i < ar.size(); i++) {
-		res[i] = iterator.next().intValue();
-	}
-	return res; 
+
     }
 }
