@@ -35,47 +35,33 @@
  */
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
-        int i = 0;
-	while(lists.size() > 1) {
-	    if (i+1>l.size()) i=0;
-	    ListNode n = sort(lists.get(i), lists.get(i+1));
-	    lists.add(i,n);
-	    lists.remove(i+1);
-	    lists.remove(i+2);
-	    i+=2;
+	PriorityQueue<ListNode> pq = new PriorityQueue<ListNode>(new Checker());
+	ListNode res = new ListNode(0);
+	ListNode n = res;
+	for (int i = 0; i < lists.length; i++) {
+		ListNode head = lists[i];
+		
+		if(head != null) pq.offer(head);
+//		while(head != null) {
+//			pq.offer(head);
+//			head = head.next;
+//		}
 	}
-	return lists.get(0);
+	while(!pq.isEmpty()) {
+		n.next = pq.poll();
+		n = n.next;
+		if (n.next != null) pq.offer(n.next);
+	}
+	return res.next;
     }
+}
 
-    public ListNode sort(ListNode a, ListNode b) {
-	ListNode head;
-	if (a.val > b.val) {
-	    head = b;
-	    b=b.next;
-	} else {
-	    head = a;
-	    a=a.next;
+class Checker implements Comparator<ListNode> {
+
+	@Override
+	public int compare(ListNode x, ListNode y) {
+		if (x.val < y.val) return -1;
+		else if (x.val > y.val) return 1;
+		else return 0;
 	}
-	ListNode pt = head;
-	while (b!=null ||a!=null) {
-	    if (a==null) {
-		pt.next=b;
-		break;
-	    }
-	    if(b==null) {
-		pt.next=a;
-		break;
-	    }
-	    if(a.val > b.val) {
-		pt.next = b;
-		b=b.next;
-		pt=pt.next;
-	    } else {
-		pt.next = a;
-		a=a.next;
-		pt=pt.next;
-	    }
-	}
-	return head;
-    }
 }
