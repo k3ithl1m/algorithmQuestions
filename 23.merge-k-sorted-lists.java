@@ -41,16 +41,16 @@ class Solution {
 	for (int i = 0; i < lists.length; i++) {
 		ListNode head = lists[i];
 		
-		if(head != null) pq.offer(head);
-//		while(head != null) {
-//			pq.offer(head);
-//			head = head.next;
-//		}
+//		if(head != null) pq.offer(head);
+		while(head != null) {
+			pq.offer(head);
+			head = head.next;
+		}
 	}
 	while(!pq.isEmpty()) {
-		n.next = pq.poll();
+		n.next = new ListNode(pq.poll().val);
 		n = n.next;
-		if (n.next != null) pq.offer(n.next);
+//		if (n.next != null) pq.offer(n.next);
 	}
 	return res.next;
     }
