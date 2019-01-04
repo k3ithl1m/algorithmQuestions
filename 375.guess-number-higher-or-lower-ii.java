@@ -41,7 +41,7 @@ class Solution {
 	int totalCount = 0;
 	int low = 1;
 	int high = n;
-	int target = n - 1;
+	int target=n-1;
 	
 	while (low <= high) {
 		int mid = low + (high - low)/2;
