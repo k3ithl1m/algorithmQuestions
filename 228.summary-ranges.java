@@ -31,6 +31,43 @@
  */
 class Solution {
     public List<String> summaryRanges(int[] nums) {
-        
+	ArrayList<String> res = new ArrayList<String>();
+	if (nums.length == 0) return res;
+	if (nums.length == 1) {
+		res.add(""+nums[0]);
+		return res;
+	}
+	int start = nums[0];
+	int prev = nums[0];
+	for (int i = 1; i < nums.length; i++) {
+		if (nums[i] == prev + 1) {
+			prev = nums[i];
+			if (i == nums.length - 1) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(start);
+				sb.append("->");
+				sb.append(prev);
+				res.add(sb.toString());				
+			}
+			continue;
+		} else {
+			if (prev == start) {
+				res.add("" + prev);
+			} else {
+				StringBuilder sb = new StringBuilder();
+				sb.append(start);
+				sb.append("->");
+				sb.append(prev);
+				res.add(sb.toString());
+			}
+			start = nums[i];
+			prev = nums[i];
+			if (i == nums.length - 1) {
+				res.add("" + prev);
+			}
+		}
+	}        
+	return res;
     }
+
 }
