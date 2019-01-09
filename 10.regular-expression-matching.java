@@ -81,12 +81,20 @@
  * 
  * 
  */
+enum Result {
+	TRUE, FALSE
+}
 class Solution {
+    Result[][] memo;
     public boolean isMatch(String s, String p) {
+	memo = new Result[s.length() + 1][p.length() + 1];
 	return checkRegexSP(s,p, 0, 0);        
     }
 
     public boolean checkRegexSP(String s, String p, int posOfS, int posOfP) {
+	if (memo[posOfS][posOfP] != null) {
+		return memo[posOfS][posOfP] == Result.TRUE;
+	}
 	boolean ans;
 	if (posOfP == p.length()) {
 		return ans = posOfS == s.length();
@@ -100,6 +108,7 @@ class Solution {
 			ans = first_match && checkRegexSP(s,p,posOfS +1 , posOfP +1);
 		}
 	}
+	memo[posOfS][posOfP] = ans ? Result.TRUE : Result.FALSE;
 	return ans;
     }
 }
