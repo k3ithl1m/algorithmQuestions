@@ -42,39 +42,5 @@
  */
 class Solution {
     public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
-	if (intervals.size() == 0) {
-		intervals.add(newInterval);
-		return intervals;
-	}        
-	int startLeft = -1, startRight = -1, endLeft = -1, endRight = -1;
-	int st = newInterval.start, en = newInterval.end;
-	for (int i = 0; i < intervals.size(); i++) {
-		Interval temp = intervals.get(i);
-		if ( st>temp.start && st < temp.end) {
-			startLeft = startRight = i;
-		} else if (st > temp.end) startLeft = i;
-		else if (st < temp.start && startRight == -1) startRight = i;
-		
-		if (en > temp.start && en < temp.end) endLeft = endRight = i;
-		else if (en > temp.end) endLeft = i;
-		else if (en < temp.start && endRight == -1) endRight = i;
-	}
-
-	int start = 0, end = 0;
-	if (startLeft == -1 && startRight == -1) {
-		start = st;
-	} else if (startLeft == startRight) start = intervals.get(startLeft).start;
-	else start = st;
-	if (endLeft == endRight) start = intervals.get(endLeft).end;
-	else end = en;
-
-	if (startRight != -1) {
-		for ( int i = startRight; i < endRight; i++) {
-			intervals.remove(startRight);
-		}
-	} else startRight = 0;
-	Interval nI = new Interval(start, end);
-	intervals.add( startRight, nI);
-	return intervals;
     }
 }
