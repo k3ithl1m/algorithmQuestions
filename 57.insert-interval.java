@@ -42,5 +42,50 @@
  */
 class Solution {
     public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
+	List<Interval> result = new ArrayList<Interval>();
+	if (intervals.size() == 0) {
+		result.add(newInterval);
+		return result;
+	} 
+
+	int posInIntervals = 0;
+	Interval intervalToInsert = new Interval(Integer.MIN_VALUE, Integer.MIN_VALUE);
+	while (posInIntervals < intervals.size()) {
+		Interval tempInterval = intervals.get(posInIntervals);
+		if (newInterval.start <= tempInterval.start) {
+			intervalToInsert.start = newInterval.start;
+			break;
+		} else if (newInterval.start <= tempInterval.end) {
+			intervalToInsert.start = tempInterval.start;
+			break;
+		}
+		result.add(tempInterval);
+		System.out.println("I'm here");
+		posInIntervals++;
+	}
+
+	while(posInIntervals< intervals.size()) {
+		Interval tempInterval = intervals.get(posInIntervals);
+		if (newInterval.end < tempInterval.start) {
+			intervalToInsert.end = newInterval.end;
+			break;
+		} else if (newInterval.end == tempInterval.start) {
+			intervalToInsert.end = tempInterval.end;
+			posInIntervals++;
+			break;
+		} else if (newInterval.end < tempInterval.end) {
+			intervalToInsert.end = tempInterval.end;
+			posInIntervals++;
+			break;
+		}
+		posInIntervals++;
+	}
+	if (intervalToInsert.end == Integer.MIN_VALUE) intervalToInsert.end = newInterval.end;
+	if (intervalToInsert.start == Integer.MIN_VALUE) intervalToInsert.start = newInterval.start;
+	result.add(intervalToInsert);
+	for (int i = posInIntervals; i < intervals.size(); i++) {
+		result.add(intervals.get(i));
+	}
+	return result;
     }
 }
