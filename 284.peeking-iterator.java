@@ -37,30 +37,41 @@
 // https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html
 class PeekingIterator implements Iterator<Integer> {
 
-	private Queue<Integer> store;
+//	private Queue<Integer> store;
+	private Iterator<Integer> store2;
+	private Integer nextVal;
 	public PeekingIterator(Iterator<Integer> iterator) {
 	    // initialize any member here.
-		store = new LinkedList<Integer>();
-		while(iterator.hasNext()) {
-			store.add(iterator.next());
+//		store = new LinkedList<Integer>();
+//		while(iterator.hasNext()) {
+//			store.add(iterator.next());
+//		}
+		store2 =iterator; 
+		if (store2 != null && store2.hasNext()) {
+			nextVal = store2.next();
 		}
 	    
 	}
 
     // Returns the next element in the iteration without advancing the iterator.
 	public Integer peek() {
-       		return store.peek(); 
+ //      		return store.peek(); 
+		return nextVal;
 	}
 
 	// hasNext() and next() should behave the same as in the Iterator interface.
 	// Override them if needed.
 	@Override
 	public Integer next() {
-	   return store.remove(); 
+//	   return store.remove(); 
+	   Integer result = nextVal;
+	   nextVal = store2.hasNext()?store2.next(): null;
+	   return result;
 	}
 
 	@Override
 	public boolean hasNext() {
-	   return !store.isEmpty(); 
+//	   return !store.isEmpty(); 
+	   return (nextVal != null) ? true : false;
 	}
 }
