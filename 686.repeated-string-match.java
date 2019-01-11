@@ -33,7 +33,11 @@ class Solution {
 		count++;
 	}
 	if (sb.toString().contains(B)) return count;
+<<<<<<< HEAD
 	if (sb.append(A).toString().contains(B)) return count++;
+=======
+	if (sb.append(A).toString().contains(B)) return ++count;
+>>>>>>> b1b1ccdc2cefd7d88f143eabd923b8f892d2be68
 	return -1;
     }
 }
