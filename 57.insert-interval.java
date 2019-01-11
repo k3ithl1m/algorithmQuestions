@@ -41,7 +41,7 @@
  * }
  */
 class Solution {
-    public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
+    public List<Interval> insert2(List<Interval> intervals, Interval newInterval) {
 	List<Interval> result = new ArrayList<Interval>();
 	if (intervals.size() == 0) {
 		result.add(newInterval);
@@ -87,5 +87,28 @@ class Solution {
 		result.add(intervals.get(i));
 	}
 	return result;
+    }
+
+    public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
+	List<Interval> ret = new ArrayList<>();
+	int i = 0;
+	while(i < intervals.size() && intervals.get(i).end<newInterval.start) {
+		ret.add(intervals.get(i++));
+	}
+	int minStart = newInterval.start, maxEnd = newInterval.end;
+	while(i<intervals.size()) {
+		if (newInterval.end >= intervals.get(i).end || intervals.get(i).start <= newInterval.end) {
+			minStart = Math.min(minStart, intervals.get(i).start);
+			maxEnd = Math.max(maxEnd, intervals.get(i).end);
+			i++;
+		} else {
+			break;
+		}
+	}
+	ret.add(new Interval(minStart, maxEnd));
+	while(i < intervals.size()) {
+		ret.add(intervals.get(i++));
+	}	
+	return ret;
     }
 }
