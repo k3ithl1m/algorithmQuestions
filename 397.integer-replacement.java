@@ -57,14 +57,20 @@
  * 
  */
 class Solution {
-    public int integerReplacement(int n) {
-	int finalResult = n;
-	int steps = 0;
-	while(finalResult!=1) {
-		if (finalResult %2 == 1) 
-	}	
-       	return helper(n, 0); 
-    }
+	public int integerReplacement(int n) {
+	    int c = 0;
+	    while (n != 1) {
+		if ((n & 1) == 0) {
+		    n >>>= 1;
+		} else if (n == 3 || Integer.bitCount(n + 1) > Integer.bitCount(n - 1)) {
+		    --n;
+		} else {
+		    ++n;
+		}
+		++c;
+	    }
+	    return c;
+	}
     
     public int helper(int x, int steps) {
 	if (x == 1) return steps;
