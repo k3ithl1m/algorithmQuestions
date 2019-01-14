@@ -3,8 +3,7 @@
  *
  * https://leetcode.com/problems/add-strings/description/
  *
- * algorithms
- * Easy (42.36%)
+ * algorithms * Easy (42.36%)
  * Total Accepted:    77.8K
  * Total Submissions: 183K
  * Testcase Example:  '"0"\n"0"'
@@ -24,6 +23,40 @@
  */
 class Solution {
     public String addStrings(String num1, String num2) {
-        
+	if (num1 == null || num1.length() == 0) return num2;
+	if (num2 == null || num2.length() == 0) return num2;
+	if (num1.length() < num2.length()) {
+		String temp = num2;
+		num2 = num1;
+		num1 = temp;
+	}        
+	
+	StringBuilder finalResult = new StringBuilder();
+	boolean overflow = false;
+	int diff = num1.length() - num2.length();
+	for (int i = num1.length()-1; i >= 0; i--) {
+		int j = i - diff;
+		if (j >= 0) {
+			int currentValue = num1.charAt(i) + num2.charAt(j) - '0' - '0';
+			if (overflow) {
+				currentValue++;
+				overflow = false;
+			}
+			if (currentValue / 10 >= 1) {
+				overflow = true;
+			}
+			System.out.println(currentValue);
+			finalResult.append(currentValue%10);
+		} else {
+			if (overflow) {
+				overflow = false;
+				int currentValue = num1.charAt(i)-'0' + 1;
+				if (currentValue / 10 >= 1) overflow = true;
+				finalResult.append(currentValue%10);
+			} else finalResult.append(num1.charAt(i));
+		}
+	}
+	if (overflow) finalResult.append('1');
+	return finalResult.reverse().toString();
     }
 }
