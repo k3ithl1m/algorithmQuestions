@@ -32,31 +32,42 @@ class Solution {
 	}        
 	
 	StringBuilder finalResult = new StringBuilder();
-	boolean overflow = false;
-	int diff = num1.length() - num2.length();
-	for (int i = num1.length()-1; i >= 0; i--) {
-		int j = i - diff;
-		if (j >= 0) {
-			int currentValue = num1.charAt(i) + num2.charAt(j) - '0' - '0';
-			if (overflow) {
-				currentValue++;
-				overflow = false;
-			}
-			if (currentValue / 10 >= 1) {
-				overflow = true;
-			}
-			System.out.println(currentValue);
-			finalResult.append(currentValue%10);
-		} else {
-			if (overflow) {
-				overflow = false;
-				int currentValue = num1.charAt(i)-'0' + 1;
-				if (currentValue / 10 >= 1) overflow = true;
-				finalResult.append(currentValue%10);
-			} else finalResult.append(num1.charAt(i));
-		}
+//	boolean overflow = false;
+//	int diff = num1.length() - num2.length();
+//	for (int i = num1.length()-1; i >= 0; i--) {
+//		int j = i - diff;
+//		if (j >= 0) {
+//			int currentValue = num1.charAt(i) + num2.charAt(j) - '0' - '0';
+//			if (overflow) {
+//				currentValue++;
+//				overflow = false;
+//			}
+//			if (currentValue / 10 >= 1) {
+//				overflow = true;
+//			}
+//			System.out.println(currentValue);
+//			finalResult.append(currentValue%10);
+//		} else {
+//			if (overflow) {
+//				overflow = false;
+//				int currentValue = num1.charAt(i)-'0' + 1;
+//				if (currentValue / 10 >= 1) overflow = true;
+//				finalResult.append(currentValue%10);
+//			} else finalResult.append(num1.charAt(i));
+//		}
+//	}
+//	if (overflow) finalResult.append('1');
+	int i = num1.length() -1;
+	int j = num2.length() -1;
+	int carry = 0;
+	while(i>=0 || j >= 0 || carry == 1) {
+		int x = i < 0 ? 0: num1.charAt(i) - '0';
+		int y = j < 0 ? 0: num2.charAt(j) - '0';
+		finalResult.append((x+y+carry) % 10);
+		carry = (x+y+carry) / 10;
+		i--;
+		j--;
 	}
-	if (overflow) finalResult.append('1');
 	return finalResult.reverse().toString();
     }
 }
