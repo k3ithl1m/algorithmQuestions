@@ -57,20 +57,25 @@
  * String S is non-empty.
  * 
  * 
- */
-class Solution {
+ */ class Solution {
     public String licenseKeyFormatting(String S, int K) {
-	int count = k;
-	int start = 0;
-	while (start < S.length() && S.charAt(start) == '-') start++;
-	int end = start;
-	while (end< S.length() && S.charAt(end) != '-' && count >= 0) {
-		count--;
-		end++;
-	} 
 	StringBuilder sb = new StringBuilder();
-	sb.append(S.substring(start, end);
+	int count = K;
+	for (int i = S.length() -1; i >=0; i--) {
+		if (S.charAt(i) !='-') {
+			char temp = S.charAt(i);
+			sb.append(temp);
+			count--;
+		}
+		if (count == 0) {
+			sb.append('-');
+			count=K;
+		}
+	}
+	String result = sb.reverse().toString().toUpperCase();	
+	boolean dashFirst = false;
+	if (result.length() > 0 && result.charAt(0) == '-') dashFirst = true;
 	
-	        
+	return dashFirst ? result.substring(1, result.length()): result;
     }
 }
