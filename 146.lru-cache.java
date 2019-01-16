@@ -29,7 +29,6 @@
  * 
  * Example:
  * 
- * LRUCache cache = new LRUCache( 2 /* capacity */ );
  * 
  * cache.put(1, 1);
  * cache.put(2, 2);
@@ -43,18 +42,80 @@
  * 
  * 
  */
+
+class Node {
+	Node next;
+	Node prev;
+	int key;
+	int val;
+	public Node(int key, int val) {
+		this.key = key;
+		this.val = val;
+	}
+}
+
 class LRUCache {
 
+    int currentCapacity;
+    int maxCapacity;
+    HashMap<Integer, Node> nodeMap;
+    Node head;
+    Node tail;
+
     public LRUCache(int capacity) {
-        
+	this.currentCapacity = 0;
+	this.maxCapacity = capacity;        
+	nodeMap = new HashMap<Integer, Node>();
+	head = null;
+	tail = null;
     }
     
     public int get(int key) {
-        
+       	if (nodeMap.containsKey(key)) {
+		Node tempNode = nodeMap.get(key);
+		Node prevNode = tempNode.prev;
+		Node nextNode = tempNode.next;
+		prevNode.next = nextNode;
+		nextNode.prev = prevNode;
+		tempNode.next = head;
+		if (tail == tempNode) {
+			tail = tail.prev;
+		}
+		tempNode.prev = tail;
+		head.prev = tempNode;
+		tail.next = tempNode;
+		head = tempNode;
+		tail = tempNode.prev;
+		return nodeMap.get(key).val;
+	} else return -1; 
     }
     
     public void put(int key, int value) {
-        
+       	Node newNode = new Node(key, value);
+	if (currentCapacity == 0) {
+		head = newNode;
+		tail = newNode;
+		head.prev = tail;
+		tail.next = head;
+		nodeMap.put(key, newNode);
+		currentCapacity++;
+		return;
+	} else {
+		currentCapacity++;
+		newNode.next = head;
+		newNode.prev = tail;
+		head.prev = newNode;
+		tail.next = newNode;
+		head = newNode;
+		nodeMap.put(key, head);
+		if (currentCapacity > maxCapacity) {
+			nodeMap.remove(tail.key);
+			tail = tail.prev;
+			tail.next = tail.next.next;
+			head.prev = tail;
+			currentCapacity--;
+		}
+	}
     }
 }
 
