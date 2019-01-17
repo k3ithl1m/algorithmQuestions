@@ -44,6 +44,37 @@
  */
 class Solution {
     public double[] medianSlidingWindow(int[] nums, int k) {
-        
+	PriorityQueue<Integer> lowerBound = new PriorityQueue<Integer>(Collections.reverseOrder());
+	PriorityQueue<Integer> upperBound = new PriorityQueue<Integer>();
+	for (int i = 0; i < k; i++) {
+		lowerBound.offer(nums[i]);
+	}        
+	ArrayList<Double> finalResult = new ArrayList<Double>();
+	boolean isOdd = (k % 2 == 1);
+	for (int i = 0; i < k/2; i++) {
+		upperBound.offer(lowerBound.poll());
+	}
+	if (isOdd) finalResult.add(lowerBound.peek()/1.0);
+	else finalResult.add(lowerBound.peek()/2.0 + upperBound.peek()/ 2.0);
+
+	for (int i=0; i < nums.length - k; i++) {
+		lowerBound.offer(nums[k+i]);
+		upperBound.offer(lowerBound.poll());
+		if (lowerBound.contains(nums[i])) {
+			lowerBound.remove(nums[i]);
+			lowerBound.offer(upperBound.poll());
+		} else {
+			upperBound.remove(nums[i]);
+		}
+
+		if (isOdd) finalResult.add(lowerBound.peek()/1.0);
+		else finalResult.add(lowerBound.peek()/2.0 + upperBound.peek()/2.0);
+	}
+
+	double[] result = new double[finalResult.size()];
+	for (int i = 0; i < finalResult.size(); i++) {
+		result[i] = finalResult.get(i);
+	}
+	return result;
     }
 }
