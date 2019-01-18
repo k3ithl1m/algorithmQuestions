@@ -59,28 +59,69 @@
  */
 public class NestedIterator implements Iterator<Integer> {
     
-    Stack<NestedInteger> nestedIntegerTracker;
-    public NestedIterator(List<NestedInteger> nestedList) {
-	nestedIntegerTracker = new Stack<NestedInteger>();
-	for (int i = nestedList.size() - 1; i >=0; i--) {
-		nestedIntegerTracker.push(nestedList.get(i));
-	}
-    }
+    // Stack<NestedInteger> nestedIntegerTracker;
+    // public NestedIterator(List<NestedInteger> nestedList) {
+	// nestedIntegerTracker = new Stack<NestedInteger>();
+	// for (int i = nestedList.size() - 1; i >=0; i--) {
+	// 	nestedIntegerTracker.push(nestedList.get(i));
+	// }
+    // }
 
+    // @Override
+    // public Integer next() {
+	// return nestedIntegerTracker.pop().getInteger();
+    // }
+
+    // @Override
+    // public boolean hasNext() {
+	// while (!nestedIntegerTracker.isEmpty() && !nestedIntegerTracker.peek().isInteger()) {
+	// 	List<NestedInteger> tempList = nestedIntegerTracker.pop().getList();
+	// 	for (int i = tempList.size() - 1; i >= 0; i--) {
+	// 		nestedIntegerTracker.push(tempList.get(i));
+	// 	}
+	// }
+	// return !nestedIntegerTracker.isEmpty();
+    // }
+    
+
+    Stack<Iterator<NestedInteger>> stack;
+    Iterator<NestedInteger> iter;
+    Integer peek = null;
+    
+    public NestedIterator(List<NestedInteger> nestedList) {
+        iter = nestedList.iterator();
+        stack = new Stack<>();
+        peek = InternalNext();
+    }
+    
+    public Integer InternalNext() {
+        if (iter != null && iter.hasNext()) {
+            NestedInteger ne = iter.next();
+            if (ne.isInteger()) {
+                return ne.getInteger();
+            } else {
+                stack.push(iter);
+                iter = ne.getList().iterator();
+                return InternalNext();
+            }
+        } else if (!stack.isEmpty()) {
+            iter = stack.pop();
+            return InternalNext();
+        } else {
+            return null;
+        }
+    } 
+    
     @Override
     public Integer next() {
-	return nestedIntegerTracker.pop().getInteger();
+        int tmp = peek;
+        peek = InternalNext();
+        return tmp;
     }
 
     @Override
     public boolean hasNext() {
-	while (!nestedIntegerTracker.isEmpty() && !nestedIntegerTracker.peek().isInteger()) {
-		List<NestedInteger> tempList = nestedIntegerTracker.pop().getList();
-		for (int i = tempList.size() - 1; i >= 0; i--) {
-			nestedIntegerTracker.push(tempList.get(i));
-		}
-	}
-	return !nestedIntegerTracker.isEmpty();
+        return peek != null;
     }
 }
 
