@@ -79,59 +79,55 @@ class Solution {
 	
 	int[][] dirs = new int[][]{{1,0},{-1,0},{0,1},{0,-1}};
 	while(!maxTracker.isEmpty()) {
-//		Node currentNode = maxTracker.remove();
-//		if (currentNode.height > maxHeight) maxHeight = currentNode.height;
-//		int left = currentNode.x - 1;
-//		int right = currentNode.x + 1;
-//		int top = currentNode.y - 1;
-//		int down = currentNode.y + 1;
-//		if (left >= 0 && !visited[currentNode.x-1][currentNode.y]) {
-//			int leftHeight = heightMap[currentNode.x-1][currentNode.y];
-//			if (leftHeight < maxHeight) {
-//				totalTrapped += maxHeight - leftHeight;
-//				visited[left][currentNode.y] = true;
-//			} else {
-//				maxTracker.add(new Node(left, currentNode.y, heightMap[left][currentNode.y]));
-//			}
-//		}
-//		if (top >= 0 && !visited[currentNode.x][currentNode.y-1]) {
-//			int topHeight = heightMap[currentNode.x][top];
-//			if (topHeight < maxHeight) {
-//				totalTrapped += maxHeight - topHeight;
-//				visited[currentNode.x][top] = true;
-//			} else {
-//				maxTracker.add(new Node(currentNode.x, top, heightMap[currentNode.x][top]));
-//			}
-//		}
-//		if (right < heightMap.length && !visited[right][currentNode.y]) {
-//			int rightHeight = heightMap[right][currentNode.y];
-//			if (rightHeight < maxHeight) {
-//				totalTrapped += maxHeight - rightHeight;
-//				visited[right][currentNode.y] = true;
-//			} else {
-//				maxTracker.add(new Node(right, currentNode.y, heightMap[right][currentNode.y]));
-//			}
-//		}
-//		if (down < heightMap[0].length && !visited[currentNode.x][down]) {
-//			int downHeight = heightMap[currentNode.x][down];
-//			if (downHeight < maxHeight) {
-//				totalTrapped += maxHeight - downHeight;
-//				visited[currentNode.x][down] = true;
-//			} else {
-//				maxTracker.add(new Node(currentNode.x, down, heightMap[currentNode.x][down]));
-//			}
-//		}
-
-		Node node = maxTracker.remove();
-		for(int[] dir: dirs) {
-			int row = node.x + dir[0];
-			int col = node.y + dir[1];
-			if (row>=0 && row < m && col >= 0 && col < n && !visited[row][col]) {
-				visited[row][col] = true;
-				totalTrapped += Math.max(0, node.height - heightMap[row][col]);
-				maxTracker.add(new Node(row, col, Math.max(heightMap[row][col], node.height)));
+		Node currentNode = maxTracker.remove();
+		if (currentNode.height > maxHeight) maxHeight = currentNode.height;
+		int left = currentNode.x - 1;
+		int right = currentNode.x + 1;
+		int top = currentNode.y - 1;
+		int down = currentNode.y + 1;
+		if (left >= 0 && !visited[currentNode.x-1][currentNode.y]) {
+			int leftHeight = heightMap[currentNode.x-1][currentNode.y];
+			if (leftHeight < maxHeight) {
+				totalTrapped += maxHeight - leftHeight;
 			}
+			visited[left][currentNode.y] = true;
+			maxTracker.add(new Node(left, currentNode.y, heightMap[left][currentNode.y]));
 		}
+		if (top >= 0 && !visited[currentNode.x][currentNode.y-1]) {
+			int topHeight = heightMap[currentNode.x][top];
+			if (topHeight < maxHeight) {
+				totalTrapped += maxHeight - topHeight;
+			}
+			visited[currentNode.x][top] = true;
+			maxTracker.add(new Node(currentNode.x, top, heightMap[currentNode.x][top]));
+		}
+		if (right < heightMap.length && !visited[right][currentNode.y]) {
+			int rightHeight = heightMap[right][currentNode.y];
+			if (rightHeight < maxHeight) {
+				totalTrapped += maxHeight - rightHeight;
+			}
+			visited[right][currentNode.y] = true;
+			maxTracker.add(new Node(right, currentNode.y, heightMap[right][currentNode.y]));
+		}
+		if (down < heightMap[0].length && !visited[currentNode.x][down]) {
+			int downHeight = heightMap[currentNode.x][down];
+			if (downHeight < maxHeight) {
+				totalTrapped += maxHeight - downHeight;
+			}
+			visited[currentNode.x][down] = true;
+			maxTracker.add(new Node(currentNode.x, down, heightMap[currentNode.x][down]));
+		}
+
+//		Node node = maxTracker.remove();
+//		for(int[] dir: dirs) {
+//			int row = node.x + dir[0];
+//			int col = node.y + dir[1];
+//			if (row>=0 && row < m && col >= 0 && col < n && !visited[row][col]) {
+//				visited[row][col] = true;
+//				totalTrapped += Math.max(0, node.height - heightMap[row][col]);
+//				maxTracker.add(new Node(row, col, Math.max(heightMap[row][col], node.height)));
+//			}
+//		}
 	}
 
 	return totalTrapped;
