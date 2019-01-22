@@ -53,12 +53,31 @@
  */
 class MyCalendar {
 
+    private static class TreeNode {
+	TreeNode left;
+	TreeNode right;
+	int start;
+	int end;
+	public TreeNode(int start, int end) {
+		this.start = start;
+		this.end = end;
+	} 
+    }
     TreeMap<Integer, Integer> scheduleKeeper;
+    private TreeNode root;
     public MyCalendar() {
        	scheduleKeeper = new TreeMap();
     }
-    
+
     public boolean book(int start, int end) {
+	if (root == null) {
+		root = new TreeNode(start, end);
+		return true;
+	}
+	return helper(start, end, null, root);
+    }
+    
+    public boolean book2(int start, int end) {
 	boolean booked = false;
 	Integer prev = scheduleKeeper.floorKey(start),
 		next = scheduleKeeper.ceilingKey(start);
@@ -68,6 +87,24 @@ class MyCalendar {
 		return true;
 	}
 	return booked;
+    }
+
+    private boolean helper(int start, int end, TreeNode parent, TreeNode root) {
+	if (root == null) {
+		if (end <= parent.start) {
+			parent.left = new TreeNode(start, end);
+		} else {
+			parent.right = new TreeNode(start, end);
+		}
+		return true;
+	}
+	if (end <= root.start) {
+		return helper(start, end, root, root.left);
+	}
+	if (start >= root.end) {
+		return helper(start, end, root, root.right);
+	}
+	return false;
     }
 }
 
