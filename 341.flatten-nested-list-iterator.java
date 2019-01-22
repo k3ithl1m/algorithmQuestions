@@ -59,48 +59,69 @@
  */
 public class NestedIterator implements Iterator<Integer> {
     
-    Stack<List<NestedInteger>> nestedIntegerTracker;
-    Stack<Integer> positionOfNestedInteger;
-    public NestedIterator(List<NestedInteger> nestedList) {
-       	nestedIntegerTracker = new Stack<List<NestedInteger>>();
-	positionOfNestedInteger = new Stack<Integer>(); 
-	nestedIntegerTracker.push(nestedList);
-	positionOfNestedInteger.push(0);
-    }
+    // Stack<NestedInteger> nestedIntegerTracker;
+    // public NestedIterator(List<NestedInteger> nestedList) {
+	// nestedIntegerTracker = new Stack<NestedInteger>();
+	// for (int i = nestedList.size() - 1; i >=0; i--) {
+	// 	nestedIntegerTracker.push(nestedList.get(i));
+	// }
+    // }
 
+    // @Override
+    // public Integer next() {
+	// return nestedIntegerTracker.pop().getInteger();
+    // }
+
+    // @Override
+    // public boolean hasNext() {
+	// while (!nestedIntegerTracker.isEmpty() && !nestedIntegerTracker.peek().isInteger()) {
+	// 	List<NestedInteger> tempList = nestedIntegerTracker.pop().getList();
+	// 	for (int i = tempList.size() - 1; i >= 0; i--) {
+	// 		nestedIntegerTracker.push(tempList.get(i));
+	// 	}
+	// }
+	// return !nestedIntegerTracker.isEmpty();
+    // }
+    
+
+    Stack<Iterator<NestedInteger>> stack;
+    Iterator<NestedInteger> iter;
+    Integer peek = null;
+    
+    public NestedIterator(List<NestedInteger> nestedList) {
+        iter = nestedList.iterator();
+        stack = new Stack<>();
+        peek = InternalNext();
+    }
+    
+    public Integer InternalNext() {
+        if (iter != null && iter.hasNext()) {
+            NestedInteger ne = iter.next();
+            if (ne.isInteger()) {
+                return ne.getInteger();
+            } else {
+                stack.push(iter);
+                iter = ne.getList().iterator();
+                return InternalNext();
+            }
+        } else if (!stack.isEmpty()) {
+            iter = stack.pop();
+            return InternalNext();
+        } else {
+            return null;
+        }
+    } 
+    
     @Override
     public Integer next() {
-	List<NestedInteger> currentNestedIntegerList = nestedIntegerTracker.peek();
-	int currentPosition = positionOfNestedInteger.peek();
-	NestedInteger currentNestedInteger = currentNestedIntegerList.get(currentPosition);
-	boolean isInteger = currentNestedInteger.isInteger();
-
-	while (!isInteger) {
-		positionOfNestedInteger.pop();
-		if (currentPosition+1 >= currentNestedIntegerList.size()) {
-			nestedIntegerTracker.pop();
-		} else positionOfNestedInteger.push(currentPosition+1);
-		nestedIntegerTracker.push(currentNestedInteger.getList());
-		currentPosition = 0;
-		positionOfNestedInteger.push(currentPosition);
-		currentNestedIntegerList = nestedIntegerTracker.peek();
-		currentNestedInteger = currentNestedIntegerList.get(currentPosition);
-		isInteger = currentNestedInteger.isInteger();
-	}
-
-	Integer toReturn = currentNestedIntegerList.get(currentPosition).getInteger();
-	positionOfNestedInteger.pop();
-	if (currentPosition + 1 >= currentNestedIntegerList.size()) {
-		nestedIntegerTracker.pop();
-	} else positionOfNestedInteger.push(currentPosition + 1);
-	System.out.println(toReturn);
-	return toReturn;
+        int tmp = peek;
+        peek = InternalNext();
+        return tmp;
     }
 
     @Override
     public boolean hasNext() {
-       	if (!nestedIntegerTracker.isEmpty()) return true;
-	return false; 
+        return peek != null;
     }
 }
 
