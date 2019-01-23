@@ -52,70 +52,84 @@ class Node {
 		this.key = key;
 		this.val = val;
 	}
+	public Node() {
+	}
 }
 
+class DoublyLinkedList {
+	Node head;
+	Node tail;
+	public DoublyLinkedList() {
+		head = new Node();
+		tail = new Node();
+		head.next = tail;
+		head.prev = tail;
+		tail.next = head;
+		tail.prev = head;	
+	}
+
+	public void addToHead(Node n) {
+		head.next.prev = n;
+		n.next = head.next;
+		n.prev = head;
+		head.next = n;
+	} 
+
+	public void moveToHead(Node n) {
+		Node temp = n.next;
+		n.next.prev = n.prev;
+		n.prev.next = temp;
+		addToHead(n);
+	} 
+
+	public int removeFromTail() {
+		Node temp = tail.prev.prev;
+		Node nodeToReturn = tail.prev;
+		temp.next = tail;
+		tail.prev = tail.prev.prev;
+		return nodeToReturn.key;
+	}
+}
 class LRUCache {
 
-    int currentCapacity;
-    int maxCapacity;
-    HashMap<Integer, Node> nodeMap;
-    Node head;
-    Node tail;
-
+    private HashMap<Integer, Node> nodeMap;
+    private DoublyLinkedList nodeList;
+    private int capacity;
+    private int currentCapacity;
     public LRUCache(int capacity) {
-	this.currentCapacity = 0;
-	this.maxCapacity = capacity;        
 	nodeMap = new HashMap<Integer, Node>();
-	head = null;
-	tail = null;
+	nodeList = new DoublyLinkedList();
+	this.capacity = capacity;
+	this.currentCapacity = 0;
     }
     
     public int get(int key) {
-       	if (nodeMap.containsKey(key)) {
-		Node tempNode = nodeMap.get(key);
-		Node prevNode = tempNode.prev;
-		Node nextNode = tempNode.next;
-		prevNode.next = nextNode;
-		nextNode.prev = prevNode;
-		tempNode.next = head;
-		if (tail == tempNode) {
-			tail = tail.prev;
-		}
-		tempNode.prev = tail;
-		head.prev = tempNode;
-		tail.next = tempNode;
-		head = tempNode;
-		tail = tempNode.prev;
-		return nodeMap.get(key).val;
-	} else return -1; 
+	if (!nodeMap.containsKey(key)) return -1;
+	else {
+		Node nodeToReturn = nodeMap.get(key);
+		nodeList.moveToHead(nodeToReturn);
+		return nodeToReturn.val;
+	}
     }
     
     public void put(int key, int value) {
-       	Node newNode = new Node(key, value);
-	if (currentCapacity == 0) {
-		head = newNode;
-		tail = newNode;
-		head.prev = tail;
-		tail.next = head;
-		nodeMap.put(key, newNode);
-		currentCapacity++;
-		return;
+	if (nodeMap.containsKey(key)) {
+		Node nodeToChange = nodeMap.get(key);
+		nodeToChange.val = value;	
+		nodeList.moveToHead(nodeToChange);
+		System.out.println(nodeToChange.val);
 	} else {
+		Node tempNode = new Node(key, value);
+		nodeMap.put(key, tempNode);
+		nodeList.addToHead(tempNode);
 		currentCapacity++;
-		newNode.next = head;
-		newNode.prev = tail;
-		head.prev = newNode;
-		tail.next = newNode;
-		head = newNode;
-		nodeMap.put(key, head);
-		if (currentCapacity > maxCapacity) {
-			nodeMap.remove(tail.key);
-			tail = tail.prev;
-			tail.next = tail.next.next;
-			head.prev = tail;
-			currentCapacity--;
-		}
-	}
+	} 
+	if (currentCapacity > capacity) {
+		int keyToDelete = nodeList.removeFromTail();
+		nodeMap.remove(keyToDelete);
+		currentCapacity = currentCapacity - 1;
+		System.out.println(keyToDelete);
+	}	
     }
 }
 
