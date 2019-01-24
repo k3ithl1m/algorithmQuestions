@@ -27,7 +27,28 @@
  * 
  */
 class Solution {
-    public List<Integer> countSmaller(int[] nums) {
-        
+    public List<Integer> countSmaller2(int[] nums) {
+	ArrayList<Integer> finalResult = new ArrayList<>();
+	for (int i = 0; i < nums.length; i++) {
+		int count = 0;
+		for (int j = i+1; j < nums.length; j++) {
+			if (nums[j] < nums[i]) count++;	
+		}
+		finalResult.add(count);
+	}        
+	return finalResult;
     }
+
+    public List<Integer> countSmaller(int[] nums) {
+	
+    }
+}
+
+class TreeNode {
+	TreeNode left;
+	TreeNode right;
+	int value;
+	public TreeNode(int value) {
+		this.value = value;
+	}
 }
