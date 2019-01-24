@@ -40,6 +40,34 @@
  */
 class Solution {
     public int longestPalindromeSubseq(String s) {
-        
+       	String testString = "";
+	int countLongest = countLongest(s, testString, 0);
+	int count = countLongest(s, testString, 1);
+	
+	return Math.max(count, countLongest);	 
     }
+
+	public int countLongest(String s, String testString, int index) {
+		if (index >= s.length()) {
+			return testString.length();
+		}
+		testString = testString + s.charAt(index);	
+		int count = 0;
+		if (isPalindrome(testString)) {
+			count = testString.length();	
+		}
+		int withCount = countLongest(s, testString, index+2);
+		int withoutCount = countLongest(s, testString, index+1);
+		return Math.max(count, Math.max(withCount, withoutCount));	
+	}
+
+	public boolean isPalindrome(String s) {
+		int left = 0, right = s.length() - 1;
+		while (left < right) {
+			if (s.charAt(left) != s.charAt(right)) return false;
+			left++;
+			right--;
+		}
+		return true;
+	}
 }
