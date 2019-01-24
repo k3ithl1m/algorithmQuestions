@@ -40,6 +40,35 @@ class Solution {
     }
 
     public List<Integer> countSmaller(int[] nums) {
+	Pair[] pairs = new Pair[nums.length];
+	for (int i = 0; i < nums.length; i++) {
+		pairs[i] = new Pair(i, nums[i]);
+	}
+	int[] rCount = new int[nums.length];
+	mergesort(pairs, 0, pairs.length - 1, rCount);
+	return Arrays.stream(rCount).boxed().collect(Collectors.toList());
+    }
+
+    public void mergesort(Pair[] nums, int start, int end, int[] rCount) {
+	if (start>=end) {
+		return;
+	}
+	int mid = start + (end - start) / 2;
+	mergesort(nums, start, mid, rCount);
+	mergesort(nums, mid+1, end, rCount);
+	int j = mid + 1;
+	for (int i = start; i <=mid; i++) {
+		//skip invalid (not reverted) pair
+		while(j<=end && nums[j].value >= nums[i].value) {
+			j++;
+		} 
+		//all numbers from j to end are smaller than num[i];
+		// given that the num[i]'s index in original array is nums[i].index
+		// we can incement the rCount number accordingly.
+		rCount[nums[i].index] += end - j + 1;
+	}
+
+	Arrays.sort(nums, start, end+1, (o1,o2) -> o2.value - o1.value);
     }
 }
 
@@ -51,3 +80,13 @@ class TreeNode {
 		this.value = value;
 	}
 }
+
+class Pair {
+	int index;
+	int value;
+	public Pair(int index, int value) {
+		this.index = index;
+		this.value = value;
+	}
+} 
+
