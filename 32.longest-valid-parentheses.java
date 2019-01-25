@@ -34,31 +34,21 @@
 class Solution {
     public int longestValidParentheses(String s) {
 	if (s == null || s.length() == 0) return 0;
-	Stack<ParenthesesPosition> openParenthesesStack = new Stack<ParenthesesPosition>();
-	int start = Integer.MAX_VALUE, end = Integer.MIN_VALUE;
+	Stack<ParenthesesPosition> st1 = new Stack<ParenthesesPosition>();
+	Stack<Integer> st = new Stack<Integer>();
+	st.push(-1);
 	int total = 0;
-	int validTotal = 0;
 	for (int i = 0; i < s.length(); i++) {
-		char charAtPos = s.charAt(i);
-		ParenthesesPosition temp;
-		if (charAtPos == '(') temp = new ParenthesesPosition(i, true);
-		else temp = new ParenthesesPosition(i, false);
-		if (temp.openParentheses) {
-			openParenthesesStack.push(temp);
-			continue;
+		char temp = s.charAt(i);	
+		if (temp == '(') {
+			st.push(i);
+		} else {
+			st.pop();
+			if (st.isEmpty()) st.push(i);
+			else total = Math.max(total, i - st.peek());
 		}
-		else {
-			//if its empty then it's at the end
-			if(!openParenthesesStack.isEmpty()) {
-				end  = temp.index;
-				start = Math.min(start,openParenthesesStack.pop().index);
-				total = Math.max(total, end-start+1);
-			} else {
-				start = Integer.MAX_VALUE;
-			}
-		}
-	}	
-	return (total >= 0) ? total : 0;
+	}
+	return total;
     }
 }
 
