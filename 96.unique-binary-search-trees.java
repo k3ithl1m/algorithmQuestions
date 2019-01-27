@@ -30,6 +30,18 @@
  */
 class Solution {
     public int numTrees(int n) {
-        
+	int[] totalSum = new int[n+1];
+	totalSum[0] = 1;
+	totalSum[1] = 1;
+	int nextBinary = 3;
+	int binaryMultiply = 2;
+	for (int i = 2; i < totalSum.length; ++i) {
+		int tempSum = 0;
+		for (int j = 1; j <= i; ++j) {
+			tempSum += totalSum[i-j] * totalSum[j-1];
+		}
+		totalSum[i] = tempSum;
+	} 
+	return totalSum[n]; 
     }
 }
