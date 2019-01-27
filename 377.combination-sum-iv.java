@@ -44,22 +44,21 @@
 class Solution {
     public int combinationSum4(int[] nums, int target) {
 	if (nums.length == 0) return 0;
-	int[] storingSeenTarget = new int[target+1];
-	Arrays.fill(storingSeenTarget, -1);
-	storingSeenTarget[0] = 1;
-       	return recurseCount(nums, target, 0, storingSeenTarget);
+	int[] countCombinationArray = new int[target+1];
+	Arrays.fill(countCombinationArray, -1);
+	countCombinationArray[0] = 1;
+	return recurseCount(nums, target, countCombinationArray);
     }
 
-    public int recurseCount(int[] nums, int target, int currentTotal, int[] storingSeenTarget) {
-	if (storingSeenTarget[target] != -1) return storingSeenTarget[target];
-	int res = 0;
+    public int recurseCount(int[] nums, int target, int[] countCombinationArray) {
+	if (countCombinationArray[target] != -1) return countCombinationArray[target];
+	int countTotalForCombination = 0;
 	for (int i = 0; i < nums.length; i++) {
-		if (target>=nums[i]) {
-			res += recurseCount(nums, target-nums[i], currentTotal + nums[i], storingSeenTarget);	
+		if (target >= nums[i]) {
+			countTotalForCombination += recurseCount(nums, target-nums[i], countCombinationArray);
 		}
-	} 
-	storingSeenTarget[target] = res;
-	return res;
-
+	}
+	countCombinationArray[target] = countTotalForCombination;
+	return countCombinationArray[target];
     }
 }
