@@ -37,6 +37,23 @@
  */
 class Solution {
     public int integerBreak(int n) {
+	if (n == 0) return 0;
+	if (n == 1) return 1;
+	if (n == 2) return 1;
+	if (n == 3) return 2;
+	int[] maxPerNumArray = new int[n+1];
+	maxPerNumArray[0] = 0;
+	maxPerNumArray[1] = 1;
+	maxPerNumArray[2] = 2;
+	maxPerNumArray[3] = 3;
+	
+	for (int i = 4; i <= n; i++) {
+		maxPerNumArray[i] = Math.max(2* maxPerNumArray[i-2], 3*maxPerNumArray[i-3]);
+	}
+	return maxPerNumArray[n];
+	
+    }
+    public int integerBreak2(int n) {
 	if (n==0) return 0;
 	if (n==1) return 1;
 	int[] maxPerNumArray = new int[n+1];
