@@ -34,6 +34,23 @@
  */
 class Solution {
     public int findLength(int[] A, int[] B) {
+	if (A.length == 0 || B.length == 0) return 0;
+	int maxLength = 0;
+	int[] BMemo = new int[B.length + 1];
+	for (int i = 1; i <= A.length; i++) {
+		for (int j = B.length; j >= 1; j--) {
+			if (A[i-1] == B[j-1]) {
+				BMemo[j] = BMemo[j-1] + 1;
+				maxLength = Math.max(maxLength, BMemo[j]);
+			} else {
+				BMemo[j] = 0;
+			}
+		}
+	}
+	return maxLength;
+    }
+
+    public int findLength2(int[] A, int[] B) {
 	if (A.length == 0 || B.length == 0) return 0;        
 	HashMap<Integer, ArrayList<Integer>> BValuePositionMap = new HashMap<Integer, ArrayList<Integer>>();
 	for (int i = 0; i < B.length; i++) {
