@@ -58,12 +58,14 @@
 class Solution {
     public int fib(int N) {
 	if (N <= 1) return N;        
-	int[] cache = new int[N + 1];
-	cache[1] = 1;
+	int prev = 0;
+	int next = 1;
 	for (int i = 2; i <= N; i++) {
-		cache[i] = cache[i-1] + cache[i-2];	
+		int temp = prev + next;
+		prev = next;
+		next = temp;
 	}
-	return cache[N];
+	return next;
     }
 
     public int recurse(int N, int[] cache) {
