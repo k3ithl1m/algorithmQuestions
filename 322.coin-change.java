@@ -36,7 +36,8 @@
 class Solution {
     public int coinChange(int[] coins, int amount) {
 	if (coins.length == 0) return -1;
-	return coinChange(coins, amount, new int[amount]);
+	int val = recurseCoinCount(coins, amount, 0, new int[amount+1]);
+	return (val == Integer.MAX_VALUE) ? -1 : val;
     }
 
     private int coinChange(int[] coins, int rem, int[] count) {
@@ -54,13 +55,13 @@ class Solution {
 
     public int recurseCoinCount(int[] coins, int amount, int numOfCoins, int[] coinCache) {
 	if (amount < 0) return Integer.MAX_VALUE;
-	if (amount == 0) return numOfCoins;
-	if (coinCache[amount] != Integer.MAX_VALUE) return coinCache[amount];
+	if (amount == 0) return 0;
+	if (coinCache[amount] != 0) return coinCache[amount];
 	int currentMin = Integer.MAX_VALUE;
 	for (int coin: coins) {
 		if (amount - coin >= 0) {
-			int nowMin = recurseCoinCount(coins, amount- coin, numOfCoins + 1, coinCache);	
-			currentMin = Math.min(currentMin, nowMin);
+			int nowMin = recurseCoinCount(coins, amount- coin, numOfCoins, coinCache);	
+			if (nowMin >= 0 && nowMin < currentMin) currentMin = nowMin + 1;
 		}
 	}
 	coinCache[amount] = currentMin;
