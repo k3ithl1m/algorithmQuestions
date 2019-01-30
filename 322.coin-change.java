@@ -12,8 +12,7 @@
  * Testcase Example:  '[1,2,5]\n11'
  *
  * You are given coins of different denominations and a total amount of money
- * amount. Write a function to compute the fewest number of coins that you need
- * to make up that amount. If that amount of money cannot be made up by any
+ * amount. Write a function to compute the fewest number of coins that you need * to make up that amount. If that amount of money cannot be made up by any
  * combination of the coins, return -1.
  * 
  * Example 1:
@@ -36,6 +35,36 @@
  */
 class Solution {
     public int coinChange(int[] coins, int amount) {
-        
+	if (coins.length == 0) return -1;
+	return coinChange(coins, amount, new int[amount]);
     }
+
+    private int coinChange(int[] coins, int rem, int[] count) {
+	if (rem < 0) return -1;
+	if (rem == 0) return 0;
+	if (count[rem - 1] != 0) return count[rem-1];
+	int min = Integer.MAX_VALUE;
+	for (int coin: coins) {
+		int res = coinChange(coins, rem - coin, count);
+		if (res >= 0 && res < min) min = 1 + res;
+	}
+	count[rem - 1] = (min == Integer.MAX_VALUE) ? -1 : min;
+	return count[rem - 1];
+    }
+
+    public int recurseCoinCount(int[] coins, int amount, int numOfCoins, int[] coinCache) {
+	if (amount < 0) return Integer.MAX_VALUE;
+	if (amount == 0) return numOfCoins;
+	if (coinCache[amount] != Integer.MAX_VALUE) return coinCache[amount];
+	int currentMin = Integer.MAX_VALUE;
+	for (int coin: coins) {
+		if (amount - coin >= 0) {
+			int nowMin = recurseCoinCount(coins, amount- coin, numOfCoins + 1, coinCache);	
+			currentMin = Math.min(currentMin, nowMin);
+		}
+	}
+	coinCache[amount] = currentMin;
+	return coinCache[amount];
+    }
+
 }
