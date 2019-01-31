@@ -41,6 +41,25 @@
  */
 class Solution {
     public int[] countBits(int num) {
-        
+	int[] resultList = new int[num + 1];
+	resultList[0] = 0;
+	if (num == 0) return resultList;
+	resultList[1] = 1;
+	if (num == 1) return resultList;
+	int currentCount = 1;
+	
+	int pointer = 0;
+	int countAtPos = 0;
+	for (int i = 2; i <= num; i++) {
+		resultList[i] = countAtPos = resultList[pointer] + 1;
+		pointer++;
+		if (currentCount < countAtPos) {
+			currentCount = countAtPos;
+			pointer = 0;
+		}	
+		
+	}
+
+	return resultList;
     }
 }
