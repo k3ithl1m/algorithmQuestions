@@ -43,7 +43,11 @@ class Solution {
     public int findLongestChain(int[][] pairs) {
 	if (pairs[0].length == 0) return 0;
 	if (pairs[0].length == 1) return 1;
-	Arrays.sort(pairs, (o1, o2) -> o1[1] - o2[1]);
+	Arrays.sort(pairs, new Comparator<int[]>() {
+		public int compare(int[] o1, int[] o2) {
+			return o1[0] - o2[0];
+		}
+	});
 	int[] pairsCache = new int[pairs.length];
 	int maxCount = 1, end = Integer.MIN_VALUE;
 	for (int i = 0; i < pairs.length; i++) {
