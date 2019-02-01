@@ -41,6 +41,29 @@
  */
 class Solution {
     public int findLongestChain(int[][] pairs) {
-        
+	if (pairs[0].length == 0) return 0;
+	if (pairs[0].length == 1) return 1;
+	Arrays.sort(pairs, (o1, o2) -> o1[1] - o2[1]);
+	int[] pairsCache = new int[pairs.length];
+	int maxCount = 1, end = Integer.MIN_VALUE;
+	for (int i = 0; i < pairs.length; i++) {
+		recurse(pairs, i+1, pairs[i][1], pairsCache);
+		maxCount = Math.max(pairsCache[i], maxCount);
+	}	
+	return maxCount;
     }
+
+    private int recurse(int[][] pairs, int pos, int end, int[] cache) {
+	if (pos >= pairs.length) return 1;
+	if (cache[pos] > 0) return cache[pos];
+	int maxCount = 1;
+	for (int i = pos; i < pairs.length; i++) {
+		if (pairs[i][0] > end) {
+			maxCount = Math.max(maxCount, recurse(pairs, i+1, pairs[i][1], cache) + 1);
+		}
+	}
+	cache[pos] = maxCount;
+	return cache[pos];
+    }
+
 }
