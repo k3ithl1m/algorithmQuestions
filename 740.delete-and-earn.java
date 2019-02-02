@@ -71,6 +71,32 @@ class Solution {
 	for (int num : totalMap.keySet()) {
 		sumsArray[num] = totalMap.get(num) * num;
 	}
+	for (int i = sumsArray.length - 1; i>= 1; i--) {
+		int maxCount = sumsArray[i];
+		for (int j = i + 2; j < sumsArray.length; j++) {
+			maxCount = Math.max(maxCount, sumsCache[j] + sumsArray[i]);
+		}
+		sumsCache[i] = maxCount;
+		sumsCache[0] = Math.max(sumsCache[0], sumsCache[i]);
+	}
+	return sumsCache[0];
+    }
+
+    public int deleteAndEarn2(int[] nums) {
+	if (nums.length == 0) return 0;
+	if (nums.length == 1) return nums[0];
+	int maxNum = 0;
+	HashMap<Integer, Integer> totalMap = new HashMap<>();
+	for (int num : nums) {
+		totalMap.put(num, totalMap.getOrDefault(num, 0) + 1);
+		if (num > maxNum) maxNum = num;
+	}        
+
+	int[] sumsArray = new int[maxNum + 1];
+	int[] sumsCache = new int[maxNum + 1];
+	for (int num : totalMap.keySet()) {
+		sumsArray[num] = totalMap.get(num) * num;
+	}
 
 	for (int i = 1; i < sumsArray.length; i++) {
 		sumsCache[0] = Math.max(sumsCache[0], recurseCount(nums, i, sumsArray, sumsCache));
