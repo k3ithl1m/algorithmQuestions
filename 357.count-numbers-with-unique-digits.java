@@ -29,28 +29,13 @@
 class Solution {
     public int countNumbersWithUniqueDigits(int n) {
 	if (n == 0) return 1;
-	ArrayList<Integer> result = new ArrayList<Integer>();
-	int count = 0;
-	return helper(n, 0, count, result);        
-    }
- 
-    public int helper(int n, int pos, int count, ArrayList<Integer> result) {
-	if (!result.isEmpty()) {
-		count++;
+	if (n > 10) return countNumbersWithUniqueDigits(10);
+	int addingUp = 10;
+	int calculateTotal = 9, movingNum = 9;
+	for (int i = n; i > 1; i--) {
+		calculateTotal *= movingNum--;
+		addingUp += calculateTotal;
 	}
-	if (pos > n) return count;
-
-	for (int i = 0; i < n; i++) {
-		if (pos == 0 && i == 0) {
-			helper(n, pos + 1, count, result);
-			continue;
-		} else {
-			if(result.contains(i)) continue;
-			result.add(i);
-			helper(n, pos + 1, count, result);
-			result.remove(result.size() -1);
-		}
-	}
-	return count;
+	return addingUp;
     }
 }
