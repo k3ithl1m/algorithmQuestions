@@ -27,125 +27,126 @@
  * 
  */
 class Solution {
-    public List<Integer> countSmaller2(int[] nums) {
-	ArrayList<Integer> finalResult = new ArrayList<>();
+    public List<Integer> countSmaller(int[] nums) {
+	if (nums.length == 0) return new ArrayList<Integer>();
+	int[] indexStore = new int[nums.length];
 	for (int i = 0; i < nums.length; i++) {
-		int count = 0;
-		for (int j = i+1; j < nums.length; j++) {
-			if (nums[j] < nums[i]) count++;	
-		}
-		finalResult.add(count);
-	}        
-	return finalResult;
+		indexStore[i] = i;
+	}
+	int[] countNumStore = new int[nums.length];
+	mergesort(nums, indexStore, new int[nums.length], new int[nums.length], countNumStore, 0, nums.length-1);
+	ArrayList<Integer> finalRes = new ArrayList<Integer>();
+	for (int i = 0; i < countNumStore.length; i++) {
+		finalRes.add(countNumStore[i]);
+	}
+	return finalRes;
     }
 
-    public List<Integer> countSmaller1(int[] nums) {
-	Pair[] pairs = new Pair[nums.length];
-	for (int i = 0; i < nums.length; i++) {
-		pairs[i] = new Pair(i, nums[i]);
-	}
-	int[] rCount = new int[nums.length];
-	mergesort1(pairs, 0, pairs.length - 1, rCount);
-	return Arrays.stream(rCount).boxed().collect(Collectors.toList());
+    private void mergesort(int[] nums, int[] indexStore, int[] tempArray, int[] tempIndex, int[] countNumStore, 
+		int leftStart, int rightEnd) {
+	if (leftStart >= rightEnd) return;
+	int middle = leftStart + (rightEnd - leftStart) / 2;
+	mergesort(nums, indexStore, tempArray, tempIndex, countNumStore, leftStart, middle);
+	mergesort(nums, indexStore, tempArray, tempIndex, countNumStore, middle+1, rightEnd);
+	mergeArrayss(nums, indexStore, tempArray, tempIndex, countNumStore, leftStart, rightEnd);
     }
 
-    public void mergesort1(Pair[] nums, int start, int end, int[] rCount) {
-	if (start>=end) {
-		return;
-	}
-	int mid = start + (end - start) / 2;
-	mergesort1(nums, start, mid, rCount);
-	mergesort1(nums, mid+1, end, rCount);
-	int j = mid + 1;
-	for (int i = start; i <=mid; i++) {
-		//skip invalid (not reverted) pair
-		while(j<=end && nums[j].value >= nums[i].value) {
-			j++;
-		} 
-		//all numbers from j to end are smaller than num[i];
-		// given that the num[i]'s index in original array is nums[i].index
-		// we can incement the rCount number accordingly.
-		rCount[nums[i].index] += end - j + 1;
+    private void mergeArrays(int[] nums, int[] indexStore, int[] tempArray, int[] tempIndex, int[] countNumStore,
+		int leftStart, int rightEnd) {
+	int middle = leftStart + (rightEnd - leftStart) / 2;
+	int leftEnd = middle, right = middle + 1;
+	int left = leftStart, end = rightEnd;
+	int index = leftStart;
+	int count = 0;
+	System.out.println(left + " " + leftEnd + " " + right + " " + rightEnd + " " + nums[index]);
+	while (left < leftEnd && right < end) {
+		if (nums[right] < nums[left]) {
+			System.out.println(nums[right]);
+			tempArray[index] = nums[right];
+			tempIndex[index] = indexStore[right];
+			right++;
+			count++;
+		} else {
+			System.out.println(nums[left]);
+			tempArray[index] = nums[left];
+			tempIndex[index] = indexStore[left];
+//			tempArray[index] = new IndexVal(indexStore[left].index, indexStore[left].value);
+			countNumStore[indexStore[left++]] += count;
+		}
+		index++;
 	}
 
-	Arrays.sort(nums, start, end+1, (o1,o2) -> o2.value - o1.value);
+	while (left <= leftEnd) {
+		tempIndex[index] = indexStore[left];
+		tempArray[index++] = nums[left];
+		countNumStore[indexStore[left++]] += count;
+	}
+	while (right < rightEnd) {
+		tempIndex[index] = indexStore[right];
+		tempArray[index++] = nums[right++];
+	}
+	
+	index = leftStart;
+	while(index < rightEnd) {
+		nums[index] = tempArray[index];
+		indexStore[index] = tempIndex[index];
+		index++;	
+	}
     }
 
-    int[] count;
-	public List<Integer> countSmaller(int[] nums) {
-	    List<Integer> res = new ArrayList<Integer>();     
+    private void mergeArrayss(int[] nums, int[] indexStore, int[] tempArray, int[] tempIndex, int[] countNumStore,
+		int leftStart, int rightEnd) {
+	int middle = leftStart + (rightEnd - leftStart) / 2;
+	int size = rightEnd - leftStart + 1;
+	int leftEnd = middle, right = middle + 1;
+	int left = leftStart, end = rightEnd;
+	int index = leftStart;
+	int count = 0;
+	while(left <= leftEnd && right <= rightEnd) {
+		if (nums[right] < nums[left]) {
+			tempArray[index] = nums[right];
+			tempIndex[index] = indexStore[right];
+			right++;
+			count++;
+		} else {
+			tempArray[index] = nums[left];
+			tempIndex[index] = indexStore[left];
+			countNumStore[indexStore[left++]] += count;
+		}
+		index++;
+	}	
 
-	    count = new int[nums.length];
-	    int[] indexes = new int[nums.length];
-	    for(int i = 0; i < nums.length; i++){
-		indexes[i] = i;
-	    }
-	    mergesort(nums, indexes, 0, nums.length - 1);
-	    for(int i = 0; i < count.length; i++){
-		res.add(count[i]);
-	    }
-	    return res;
+	while(left<=leftEnd) {
+		tempIndex[index] = indexStore[left];
+		tempArray[index] = nums[left];
+		countNumStore[indexStore[left]] += count;
+		index++;
+		left++;
 	}
-	private void mergesort(int[] nums, int[] indexes, int start, int end){
-		if(end <= start){
-			return;
-		}
-		int mid = (start + end) / 2;
-		mergesort(nums, indexes, start, mid);
-		mergesort(nums, indexes, mid + 1, end);
-		
-		merge(nums, indexes, start, end);
-	}
-	private void merge(int[] nums, int[] indexes, int start, int end){
-		int mid = (start + end) / 2;
-		int left_index = start;
-		int right_index = mid+1;
-		int rightcount = 0;    	
-		int[] new_indexes = new int[end - start + 1];
 
-		int sort_index = 0;
-		while(left_index <= mid && right_index <= end){
-			if(nums[indexes[right_index]] < nums[indexes[left_index]]){
-				new_indexes[sort_index] = indexes[right_index];
-				rightcount++;
-				right_index++;
-			}else{
-				new_indexes[sort_index] = indexes[left_index];
-				count[indexes[left_index]] += rightcount;
-				left_index++;
-			}
-			sort_index++;
-		}
-		while(left_index <= mid){
-			new_indexes[sort_index] = indexes[left_index];
-			count[indexes[left_index]] += rightcount;
-			left_index++;
-			sort_index++;
-		}
-		while(right_index <= end){
-			new_indexes[sort_index++] = indexes[right_index++];
-		}
-		for(int i = start; i <= end; i++){
-			indexes[i] = new_indexes[i - start];
-		}
+	while(right<=rightEnd) {
+		tempIndex[index] = indexStore[right];
+		tempArray[index] = nums[right];
+		index++;
+		right++;
 	}
+
+	for (int i = leftStart; i <= end; i++) {
+		nums[i] = tempArray[i];
+		indexStore[i] = tempIndex[i];
+	}
+
+//	System.arraycopy(nums, left, tempArray, index, leftEnd - left + 1);
+//	System.arraycopy(nums, right, tempArray, index, rightEnd - right + 1);
+//	System.arraycopy(tempArray, leftStart, nums, leftStart, size);
+    }
 }
 
-class TreeNode {
-	TreeNode left;
-	TreeNode right;
-	int value;
-	public TreeNode(int value) {
-		this.value = value;
-	}
-}
-
-class Pair {
+class IndexVal {
 	int index;
 	int value;
-	public Pair(int index, int value) {
+	public IndexVal(int index, int value) {
 		this.index = index;
 		this.value = value;
 	}
-} 
-
+}
