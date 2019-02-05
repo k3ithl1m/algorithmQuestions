@@ -39,59 +39,5 @@
  */
 class Solution {
     public int[] maxSumOfThreeSubarrays(int[] nums, int k) {
-	int[] total = new int[nums.length];
-	int[][] maxStore = new int[3][nums.length];
-	int[][] maxStoreLocation = new int[3][nums.length];
-	for (int i = 0; i < nums.length; i++) {
-		int subarrayTotal = 0;
-		for (int j = 0; j < k; j++) {
-			if (i+j >= nums.length) continue;
-			subarrayTotal += nums[i+j];
-		}
-		total[i] = subarrayTotal;
-	}        
-	int[] result = new int[3];
-	for (int i = total.length - 1; i >= 2*k; i--)  {
-		if (i == total.length-1) {
-			maxStore[2][total.length-1] = total[total.length-1];
-			maxStoreLocation[2][total.length-1] = i;
-			continue;
-		}
-		maxStore[2][i] = Math.max(total[i], maxStore[2][i+1]);
-		if (total[i] > maxStore[2][i+1]) {
-			maxStoreLocation[2][i] = i;
-		} else maxStoreLocation[2][i] = maxStoreLocation[2][i+1];
-	}
-	for ( int j = total.length - k - 1; j >= k; j--) {
-		if (j == total.length - k - 1) {
-			maxStore[1][total.length-k-1] = total[total.length-k-1] + maxStore[2][total.length-1];
-			maxStoreLocation[1][total.length-k-1] = j;
-		System.out.println("at j " + maxStore[1][j]);
-			continue;
-		}
-		int value = total[j] + maxStore[2][j+k];
-		System.out.println(total[j] + " " + maxStore[2][j+k]);
-		maxStore[1][j] = Math.max(value, maxStore[1][j+1]);
-		if (value > maxStore[1][j+1]) {
-			maxStoreLocation[1][j] = j;
-		} else maxStoreLocation[1][j] = maxStoreLocation[1][j+1];
-	}
-	for (int l = nums.length -2*k - 1; l >= 0; l--) {
-		if (l ==nums.length-2*k-1) {
-			maxStore[0][nums.length-2*k-1] = total[nums.length-2*k-1] + maxStore[1][nums.length-k-1];
-			maxStoreLocation[0][nums.length-2*k-1] = nums.length-2*k-1;
-			continue;
-		}
-		int value = total[l] + maxStore[1][l+k];
-		maxStore[0][l] = Math.max(value, maxStore[0][l+1]);
-		if (value >= maxStore[0][l+1]) {
-			maxStoreLocation[0][l] = l;
-		} else maxStoreLocation[0][l] = maxStoreLocation[0][l+1];
-		System.out.println("at l" + maxStore[0][l]);
-	} 
-	result[0] = maxStoreLocation[0][0];
-	result[1] = maxStoreLocation[1][result[0] + k];
-	result[2] = maxStoreLocation[2][result[1] + k];
-	return result;
     }
 }
