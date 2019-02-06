@@ -39,7 +39,7 @@
  * 
  */
 class Solution {
-    public int maxProduct(String[] words) {
+    public int maxProduct2(String[] words) {
 	ArrayList<HashSet<Character>> hashsetArrays = new ArrayList<>();
 	for (String word: words) {
 		HashSet<Character> hashsetStore = new HashSet<>();
@@ -61,6 +61,24 @@ class Solution {
 				}
 			}
 			if (!foundSame) maxValue = Math.max(maxValue, words[i].length() * words[j].length());
+		}
+	}
+
+	return maxValue;
+    }
+
+    public int maxProduct(String[] words) {
+	int[] value = new int[words.length];
+	for (int i = 0; i < words.length; i++) {
+		String word = words[i];
+		for (char c: word.toCharArray()) value[i] |= 1 << (c-'a');
+	}        
+	int maxValue = 0;
+	for (int k = 0; k < value.length; k++) {
+		for (int j = k + 1; j < value.length; j++) {
+			if ((value[k] & value[j]) == 0) {
+				maxValue = Math.max(maxValue, words[k].length() * words[j].length());
+			}
 		}
 	}
 
