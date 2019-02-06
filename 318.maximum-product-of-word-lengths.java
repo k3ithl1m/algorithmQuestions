@@ -40,6 +40,30 @@
  */
 class Solution {
     public int maxProduct(String[] words) {
-        
+	ArrayList<HashSet<Character>> hashsetArrays = new ArrayList<>();
+	for (String word: words) {
+		HashSet<Character> hashsetStore = new HashSet<>();
+		for (char c: word.toCharArray()) hashsetStore.add(c);
+		hashsetArrays.add(hashsetStore);
+	}        
+	int maxValue = 0;
+	for (int i = 0; i < hashsetArrays.size(); i++) {
+		HashSet<Character> mainSet = hashsetArrays.get(i);
+		for (int j = i + 1; j < hashsetArrays.size(); j++) {
+			HashSet<Character> compareSet = hashsetArrays.get(j);
+			boolean foundSame = false;
+			Iterator it = mainSet.iterator();
+			while (it.hasNext()) {
+				char c = (char) it.next();
+				if (compareSet.contains(c)) {
+					foundSame = true;
+					break;
+				}
+			}
+			if (!foundSame) maxValue = Math.max(maxValue, words[i].length() * words[j].length());
+		}
+	}
+
+	return maxValue;
     }
 }
