@@ -49,6 +49,30 @@
  */
 class Solution {
     public String findLongestWord(String s, List<String> d) {
-        
+	if (s.length() == 0 || d.size() == 0) return "";
+	String res = "";
+	for (String word: d) {
+		if (isSubSeq(s, word)) {
+			if (word.length() > res.length()) res = word;
+			else if (word.length() == res.length()) {
+				int i = 0;
+				while (i < res.length() && res.charAt(i) == word.charAt(i)) i++;
+				if (i < res.length()) res = (res.charAt(i) > word.charAt(i)) ? word : res;
+			}
+		}
+	}
+	return res;
+    }  
+	
+    private boolean isSubSeq(String s, String d) {
+	int i = 0;
+	for (char c : s.toCharArray()) {
+		if (c == d.charAt(i)) {
+			i++;
+			if (i >= d.length()) return true;
+		} 
+	}
+	return false;
     }
+
 }
