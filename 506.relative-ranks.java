@@ -39,6 +39,31 @@ class Solution {
     public String[] findRelativeRanks(int[] nums) {
 	if (nums.length == 0) return new String[0];
 	if (nums.length == 1) return new String[]{"Gold Medal"};
+	int max = 0;
+	for (int i = 0; i < nums.length; i++) {
+		if (nums[i]  > max) max = nums[i];
+	}
+	int[] map = new int[max+1];
+	for (int i = 0; i < nums.length; i++) map[nums[i]] = i + 1;
+	int place = 1;
+	String[] result = new String[nums.length];
+	for (int i = map.length - 1; i >= 0; i--) {
+		if(map[i] != 0) {
+			switch(place) {
+				case 1: result[map[i]-1] = "Gold Medal"; break;
+				case 2: result[map[i]-1] = "Silver Medal"; break;
+				case 3: result[map[i]-1] = "Bronze Medal"; break;
+				default: result[map[i]-1] = place+""; break;
+			}
+			place++;
+		}
+	}
+	return result;
+    }
+
+    public String[] findRelativeRanks2(int[] nums) {
+	if (nums.length == 0) return new String[0];
+	if (nums.length == 1) return new String[]{"Gold Medal"};
 	TreeMap<Integer, Integer> scorePositionMap = new TreeMap<>(Collections.reverseOrder());
 	for (int i = 0; i < nums.length; i++) {
 		scorePositionMap.put(nums[i], i);
