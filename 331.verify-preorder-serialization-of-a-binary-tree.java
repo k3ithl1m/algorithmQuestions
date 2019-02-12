@@ -6,9 +6,9 @@
  * https://leetcode.com/problems/verify-preorder-serialization-of-a-binary-tree/description/
  *
  * algorithms
- * Medium (37.94%)
- * Total Accepted:    53.7K
- * Total Submissions: 141.4K
+ * Medium (38.03%)
+ * Total Accepted:    54.5K
+ * Total Submissions: 143.1K
  * Testcase Example:  '"9,3,4,#,#,1,#,#,2,#,6,#,#"'
  *
  * One way to serialize a binary tree is to use pre-order traversal. When we
@@ -90,8 +90,8 @@ class Solution {
 class TreeNode {
 	TreeNode left;
 	TreeNode right;
-	String val;
-	public TreeNode(String val) {
-		this.val = val;
+	String element;
+	public TreeNode(String element) {
+		this.element = element;
 	}
 }
