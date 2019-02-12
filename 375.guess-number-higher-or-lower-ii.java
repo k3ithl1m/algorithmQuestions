@@ -38,10 +38,14 @@
  */
 class Solution {
     public int getMoneyAmount(int n) {
+	if (n == 1) return 0;
 	int totalCount = 0;
 	int low = 1;
 	int high = n;
-	int target=n-1;
+	int target = n/2;
+	while (target < n) {
+		target
+	}
 	
 	while (low <= high) {
 		int mid = low + (high - low)/2;
