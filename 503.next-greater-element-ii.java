@@ -34,6 +34,20 @@
  */
 class Solution {
     public int[] nextGreaterElements(int[] nums) {
-        
+	if (nums.length == 0) return new int[0];
+	if (nums.length == 1) return new int[]{-1};
+	int[] result = new int[nums.length];
+	Arrays.fill(result, -1);
+	for (int i = 0; i < nums.length; i++) {
+		int count = i;
+		while(count - i < nums.length) {
+			if (nums[count%nums.length] > nums[i]) {
+				result[i] = nums[count%nums.length];
+				break;
+			}
+			count++;
+		}	
+	}        
+	return result;
     }
 }
