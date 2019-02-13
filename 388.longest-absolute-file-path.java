@@ -66,27 +66,29 @@
 class Solution {
     public int lengthLongestPath(String input) {
 	String[] stringArray = input.split("\n");
-	boolean[] visited = new boolean[stringArray.length];
-	int maxLength = 0;
-	System.out.println(stringArray.length);
-	return searchLongest(stringArray, visited, 0, 0)-1;
+	int currentLength = 0;
+	int resultLength = 0;
+	Stack<Integer> levelStack = new Stack<>();
+	for (String s : stringArray) {
+		int level = countLevel(s);
+		while (levelStack.size() > level) {
+			currentLength -= levelStack.pop();
+		}		
+
+		int len = s.replaceAll("\t", "").length() + 1;
+		currentLength += len;
+
+		if (s.contains(".")) {
+			resultLength = Math.max(resultLength, currentLength - 1);
+		}
+		levelStack.add(len);
+	}
+	return resultLength;
     }
 
-    public int searchLongest(String[] stringArray, boolean[] visited, int pos, int depth) {
-	if (pos >= stringArray.length) return 0;
-	if (visited[pos]) return 0;
-	visited[pos] = true;
-	int maxLength = 0;
-	for (int i = pos; i < stringArray.length; i++) {
-		if (depth*2+2 < stringArray[i].length()) 
-			System.out.println(stringArray[i].substring(depth*2, depth*2+1));
-		if (depth*2+2 < stringArray[i].length() && 
-			stringArray[i].substring(depth*2, depth*2+1).equals("\t")) {
-			maxLength = Math.max(maxLength, 
-				stringArray[i].substring(depth*2+2, stringArray[i].length()).length() + 1 +
-				searchLongest(stringArray, visited, i, depth+1));	
-		}
-	}
-	return maxLength;
+    public int countLevel(String s) {
+	String temp = s.replaceAll("\t","");
+	return s.length() - temp.length();
     }
+    
 }
