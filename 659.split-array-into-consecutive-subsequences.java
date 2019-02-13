@@ -53,6 +53,27 @@
  */
 class Solution {
     public boolean isPossible(int[] nums) {
-        
+ 	if (nums.length < 3) return false;
+	TreeMap<Integer, Integer> rankMap = new TreeMap<Integer, Integer>();
+	for (int i = 0; i < nums.length; i++) {
+		rankMap.put(nums[i], rankMap.getOrDefault(nums[i],0) + 1);
+	}       
+	while (!rankMap.isEmpty()) {
+		int firstKey = rankMap.firstKey();
+		int count = 2;
+		int maxCount = rankMap.get(firstKey);
+		if (maxCount > 1) rankMap.put(firstKey, maxCount - 1);
+		else rankMap.remove(firstKey);
+		while (rankMap.get(firstKey+1) != null && rankMap.get(firstKey + 1) >= maxCount) {
+			count--;
+			firstKey++;
+			maxCount = rankMap.get(firstKey);
+			if (maxCount > 1) rankMap.put(firstKey, maxCount - 1);
+			else rankMap.remove(firstKey);
+		}
+
+		if (count > 0) return false;	
+	}
+	return true;
     }
 }
