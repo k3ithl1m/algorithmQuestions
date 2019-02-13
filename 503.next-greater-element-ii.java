@@ -38,15 +38,14 @@ class Solution {
 	if (nums.length == 1) return new int[]{-1};
 	int[] result = new int[nums.length];
 	Arrays.fill(result, -1);
-	for (int i = 0; i < nums.length; i++) {
-		int count = i;
-		while(count - i < nums.length) {
-			if (nums[count%nums.length] > nums[i]) {
-				result[i] = nums[count%nums.length];
-				break;
-			}
-			count++;
-		}	
+	Stack<Integer> posStack = new Stack<>();
+	for (int i = nums.length*2; i >= 0; i--) {
+		int pos = i % nums.length;
+		while(!posStack.isEmpty() && nums[pos] >= nums[posStack.peek()]) {
+			posStack.pop();
+		}
+		if (!posStack.isEmpty()) result[pos] = nums[posStack.peek()];
+		posStack.push(pos);	
 	}        
 	return result;
     }
