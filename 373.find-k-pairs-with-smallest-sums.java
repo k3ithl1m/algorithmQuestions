@@ -54,8 +54,31 @@ class Solution {
 	}); 
 	
 	for (int i = 0; i < nums1.length; i++) {
+		pairHeap.add(new Pairs(nums1[i], nums2[0], 0));
+	}
+
+	while(k-- > 0 && !pairHeap.isEmpty()) {
+		Pairs tempPair = pairHeap.poll();
+		resultList.add(new int[]{tempPair.x, tempPair.y});
+		if (tempPair.pos == nums2.length-1)continue;
+		pairHeap.add(new Pairs(tempPair.x, nums2[tempPair.pos+1], tempPair.pos+1));
+	}
+
+	return resultList;
+    }
+
+    public List<int[]> kSmallestPairs2(int[] nums1, int[] nums2, int k) {
+	ArrayList<int[]> resultList = new ArrayList<int[]>();
+	if (nums1.length == 0 || nums2.length == 0 || k == 0) return resultList;
+       	PriorityQueue<Pairs> pairHeap = new PriorityQueue<Pairs>( new Comparator<Pairs>() {
+		public int compare(Pairs a, Pairs b) {
+			return a.sum - b.sum;
+		}
+	}); 
+	
+	for (int i = 0; i < nums1.length; i++) {
 		for (int j = 0; j < nums2.length; j++) {
-			pairHeap.add(new Pairs(nums1[i], nums2[j]));
+			pairHeap.add(new Pairs(nums1[i], nums2[j], i));
 		}
 	}
 
@@ -73,9 +96,11 @@ class Pairs {
 	int x;
 	int y;
 	int sum;
-	public Pairs(int x, int y) {
+	int pos;
+	public Pairs(int x, int y, int pos) {
 		this.x = x;
 		this.y = y;
+		this.pos = pos;
 		this.sum = x + y;
 	}
 }
