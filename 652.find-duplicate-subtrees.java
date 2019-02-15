@@ -55,48 +55,41 @@
  * }
  */
 class Solution {
-    public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
-	if (root == null) return new ArrayList<TreeNode>();
-	HashMap<Integer, ArrayList<TreeNode>> valToArrayOfTreeNodeMap = 
-			new HashMap<Integer, ArrayList<TreeNode>>();
 
-	fillMapWithNodes(root, valToArrayOfTreeNodeMap);
-	ArrayList<TreeNode> result = new ArrayList<TreeNode>();
-	for (int key : valToArrayOfTreeNodeMap.keySet()) {
-		ArrayList<TreeNode> tempArray = valToArrayOfTreeNodeMap.get(key);
-		for (int i = 0; i < tempArray.size(); i++) {
-			for (int j = i + 1; j < tempArray.size(); j++) {
-				if (!result.contains(tempArray.get(i)) && 
-					checkEqual(tempArray.get(i), tempArray.get(j))) 
-				{
-					for (int k = 0; k < result.size(); k++) {
-						if (checkEqual(result.get(k), tempArray.get(i))) {
-							result.add(tempArray.get(i));
-						}
-					}
-				}
-			}
+	public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
+		ArrayList<TreeNode> resultList = new ArrayList<TreeNode>();
+		if (root == null) return resultList;
+		HashMap<String, TreeNode> serializeNodeMap = new HashMap<>();
+		traverse(first(root), serializeNodeMap);	
+		for (TreeNode node: serializeNodeMap.values()) {
+			if (node != null) resultList.add(node);
 		}
-	} 
+		return resultList;
+	}
 
-	return result;
-    }
+	private void traverse(TreeNode root, HashMap<String, TreeNode> serializeNodeMap) {
+		if (root == null) return;
+		String serializedNode = serialize(root);
+		if (serializeNodeMap.containsKey(serializedNode)) {
+			serializeNodeMap.put(serializedNode, root);
+		} else {
+			serializeNodeMap.put(serializedNode, null);
+		}
+		traverse(root.left, serializeNodeMap);
+		traverse(root.right, serializeNodeMap);
+	}
 
-    private void fillMapWithNodes(TreeNode root, HashMap<Integer, ArrayList<TreeNode>> map) {
-	if (root == null) return;
-	ArrayList<TreeNode> treeNodeArray = map.get(root.val);
-	if (treeNodeArray == null) {
-		treeNodeArray = new ArrayList<TreeNode>();
-		treeNodeArray.add(root);
-		map.put(root.val, treeNodeArray);
-	} else treeNodeArray.add(root);
-	fillMapWithNodes(root.left, map);
-	fillMapWithNodes(root.right, map);
-    }
+	private TreeNode first(TreeNode root) {
+		if (root == null) return null;
+		if (root.left != null && root.right != null) return root; 
+		if (root.left != null) return first(root.left);
+		return first(root.right);
+	}
 
-    private boolean checkEqual(TreeNode left, TreeNode right) {
-	if (left == null && right == null) return true;
-	if (left == null || right == null) return false;
-	return left.val == right.val && checkEqual(left.left, right.left) && checkEqual(left.right, right.right);
-    }
+	private String serialize(TreeNode root) {
+		if (root == null) return "#";
+		String s = String.valueOf(root.val);
+		return s + "," + serialize(root.left) + "," + serialize(root.right);
+	}
+
 }
