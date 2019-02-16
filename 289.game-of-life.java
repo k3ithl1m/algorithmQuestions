@@ -74,11 +74,26 @@ class Solution {
 		for (int j = 0; j < board[0].length; j++) {
 			tempBoard[i][j] = board[i][j];
 		}
-	}        
+	}
+
+	
 	for (int i = 0; i < board.length; i++) {
 		for (int j = 0; j < board[0].length; j++) {
-			int count = 0;
+			int isAlive = board[i][j];
+			int numCellsAround = 0;
+			for (int k = i - 1; k <= i+1; k++) {
+				for (int l = j - 1; l <= j+1; l++) {
+					if (k==i && l==j) continue;
+					if (k>=0 && k<board.length && l>=0 && l<board[0].length) {
+						numCellsAround += tempBoard[k][l];
+					}
+				}
+			}
+			board[i][j] = (isAlive==1) ?
+					(numCellsAround < 2 || numCellsAround > 3) ? 0 : 1 :
+					(numCellsAround == 3) ? 1 : 0;
 		}
 	}
+
     }
 }
