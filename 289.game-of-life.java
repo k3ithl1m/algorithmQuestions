@@ -69,6 +69,32 @@
  */
 class Solution {
     public void gameOfLife(int[][] board) {
+	for (int i = 0; i < board.length; i++) {
+		for (int j = 0; j < board[0].length; j++) {
+			int isAlive = board[i][j];
+			int numCellsAround = 0;
+			for (int k = i - 1; k <= i+1; k++) {
+				for (int l = j - 1; l <= j+1; l++) {
+					if (k==i && l==j) continue;
+					if (k>=0 && k<board.length && l>=0 && l<board[0].length) {
+						numCellsAround += board[k][l]&1;
+					}
+				}
+			}
+			board[i][j] = (isAlive==1) ?
+					(numCellsAround < 2 || numCellsAround > 3) ? 1 : 3 :
+					(numCellsAround == 3) ? 2 : 0;
+		}
+	}
+
+	for (int i = 0; i < board.length; i++) {
+		for (int j = 0; j < board[0].length; j++) {
+			board[i][j] = board[i][j] >> 1;
+		}
+	}
+    }
+
+    public void gameOfLife2(int[][] board) {
 	int[][] tempBoard = new int[board.length][board[0].length];
 	for (int i = 0; i < board.length; i++) {
 		for (int j = 0; j < board[0].length; j++) {
