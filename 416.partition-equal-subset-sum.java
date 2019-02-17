@@ -68,9 +68,7 @@ class Solution {
 	for (int i = 1; i < resultCache.length; i++) {
 		for (int j = 1; j < resultCache[0].length; j++) {
 			resultCache[i][j] = resultCache[i-1][j];
-			if (j >= nums[i-1]) {
-				resultCache[i][j] = resultCache[i][j] || resultCache[i-1][j-nums[i-1]];
-			}
+			if (j>=nums[i-1]) resultCache[i][j] = resultCache[i][j] || resultCache[i-1][j-nums[i-1]];
 		}
 	}
 	return resultCache[nums.length][sum];
