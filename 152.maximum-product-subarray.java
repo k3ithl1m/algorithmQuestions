@@ -32,6 +32,7 @@ class Solution {
     public int maxProduct(int[] nums) {
 	if (nums.length == 0) return 0;
 	int min = nums[0], max= nums[0], r=nums[0];
+		System.out.println(min + " " + "max:" + max);
 	for ( int i = 1; i < nums.length; i++) {
 		if (nums[i]<0) {
 			int temp = min;
@@ -39,8 +40,10 @@ class Solution {
 			max = temp;
 		}
 		
+		System.out.println(min + " " + "max:" + max);
 		min = Math.min(nums[i], min*nums[i]);
 		max = Math.max(nums[i], max*nums[i]);
+		System.out.println(min + " " + "max:" + max);
 		r = Math.max(r, max);
 	}        
 	return r;
