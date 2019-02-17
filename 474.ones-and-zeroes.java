@@ -52,55 +52,33 @@
 
 class Solution {
     public int findMaxForm(String[] strs, int m, int n) {
-	if (strs.length == 0) return 0;
-	if (m == 0 && n == 0) return 0;
-	NumZeroesOnes[] zeroesOnesArray = new NumZeroesOnes[strs.length];
-	for (int i = 0; i < strs.length; i++) {
-		String str = strs[i];
-		int zeroes = 0, ones = 0;
-		for (char c : str.toCharArray()) {
-			if (c=='0') zeroes++;
+	//edge cases
+	int[][][] zeroesOnesCache = new int[strs.length+1][m+1][n+1];
+
+	int result = 0;
+	for (int i = 1; i < strs.length+1; i++) {
+		String currentStr = strs[i-1];
+		int ones = 0;
+		int zeroes = 0;
+		for (int j = 0; j < currentStr.length(); j++) {
+			if (currentStr.charAt(j) == '0') zeroes++;
 			else ones++;
 		}
-		zeroesOnesArray[i] = new NumZeroesOnes(zeroes, ones);
+
+		for (int j = 0; j < zeroesOnesCache[0].length; j++) {
+			for (int k = 0; k < zeroesOnesCache[0][0].length; k++) {
+				if (j - zeroes >= 0 && k - ones >= 0) {
+					zeroesOnesCache[i][j][k] = Math.max(
+						zeroesOnesCache[i-1][j-zeroes][k-ones] + 1,
+						zeroesOnesCache[i-1][j][k]);
+					result = Math.max(result, zeroesOnesCache[i][j][k]);
+				} else zeroesOnesCache[i][j][k] = zeroesOnesCache[i-1][j][k];
+			}
+		}
+		
 	}
 
-	int[] countCache = new int[strs.length];
-	NumZeroesOnes[] remainder = new NumZeroesOnes[strs.length];
-	int maxCount = 0;
-	Arrays.fill(countCache, -1);
-	for (int i = 0; i < strs.length; i++) {
-		maxCount = Math.max(maxCount, recurseCount(zeroesOnesArray, m, n, i, countCache, remainder));
-	}
-
-	return maxCount;
-    }
-
-    private int recurseCount(NumZeroesOnes[] zeroesOnesArray, int m, int n, int pos, int[] countCache,
-		NumZeroesOnes[] remainder) {
-	if (pos >= zeroesOnesArray.length || (m <= 0 && n <= 0)) return 0;
-	if (countCache[pos] > -1) {
-		if ( m >= remainder[pos].zeroes && n >=remainder[pos].ones) return countCache[pos];
-	}
-	int maxCount = 0;
-	int newM = m - zeroesOnesArray[pos].zeroes, newN = n - zeroesOnesArray[pos].ones;
-	if (newM >= 0 && newN >= 0) {
-		maxCount = Math.max(recurseCount(zeroesOnesArray, m, n, pos + 1, countCache, remainder),
-				recurseCount(zeroesOnesArray, newM, newN, pos+1, countCache, remainder) + 1);
-	} else maxCount = recurseCount(zeroesOnesArray, m, n, pos + 1, countCache, remainder);
-	if (!(countCache[pos] > maxCount)) {
-		countCache[pos] = maxCount;
-		remainder[pos] = new NumZeroesOnes(m,n);
-	}
-	return maxCount;
+	return result;
     }
 }
 
-class NumZeroesOnes {
-	int ones;
-	int zeroes;
-	public NumZeroesOnes(int m, int n) {
-		zeroes = m;
-		ones = n;
-	}
-}
