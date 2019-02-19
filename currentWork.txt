@@ -1,3 +1,6 @@
+518 knapsack coin change
+542 01 matrix
+
 413
 312
 327	
