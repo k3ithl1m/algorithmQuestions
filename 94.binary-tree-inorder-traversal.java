@@ -41,7 +41,26 @@ class Solution {
     public List<Integer> inorderTraversal(TreeNode root) {
 	if (root == null) return new ArrayList<Integer>();        
 	ArrayList<Integer> resultList = new ArrayList<>();
-	traverse(root, resultList);
+//	traverse(root, resultList);
+	Stack<TreeNode> treeNodeStack = new Stack<>();
+	Stack<TreeNode> leftNodeStack = new Stack<>();
+	treeNodeStack.push(root);
+	leftNodeStack.push(root);
+	TreeNode prev = root;
+	while(!treeNodeStack.isEmpty()) {
+		TreeNode current = treeNodeStack.pop();
+		if (current.left != null && leftNodeStack.peek() != current.left) {
+			treeNodeStack.push(current);
+			treeNodeStack.push(current.left);
+			leftNodeStack.push(current.left);
+		} else {
+			resultList.add(current.val);
+			if (current.left == leftNodeStack.peek()) leftNodeStack.pop();
+			if (current.right != null) {
+				treeNodeStack.push(current.right);
+			}
+		}
+	}
 	return resultList;
     }
 
