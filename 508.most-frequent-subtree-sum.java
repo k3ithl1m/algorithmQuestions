@@ -58,8 +58,12 @@ class Solution {
     public int[] findFrequentTreeSum(TreeNode root) {
 	if (root == null) return new int[0];
 	HashMap<Integer, Integer> sumAmountMap = new HashMap<Integer, Integer>();
-	int maxValue = addSumToMapFindMax(root, sumAmountMap);
+	addSumToMapFindMax(root, sumAmountMap);
 	ArrayList<Integer> sumResultList = new ArrayList<Integer>();
+	int maxValue = 0;
+	for (int key: sumAmountMap.keySet()) {
+		maxValue = Math.max(sumAmountMap.get(key), maxValue);
+	}	        
 	for (int key: sumAmountMap.keySet()) {
 		if (sumAmountMap.get(key) == maxValue) 
 			sumResultList.add(key);
@@ -73,10 +77,11 @@ class Solution {
 
     private int addSumToMapFindMax(TreeNode root, HashMap<Integer, Integer> sumAmountMap) {
 	if (root == null) return 0;
-	int sum = root.val + ((root.left == null) ? 0 : root.left.val) + ((root.right==null)?0:root.right.val);
+	int sum = root.val + addSumToMapFindMax(root.left, sumAmountMap) 
+			+ addSumToMapFindMax(root.right, sumAmountMap);
 	sumAmountMap.put(sum, sumAmountMap.getOrDefault(sum, 0) + 1);
-	int max = sumAmountMap.get(sum);
-	max = Math.max(max, Math.max(addSumToMapFindMax(root.left, sumAmountMap), addSumToMapFindMax(root.right, sumAmountMap)));
-	return max;
+//	int max = sumAmountMap.get(sum);
+//	max = Math.max(max, Math.max(addSumToMapFindMax(root.left, sumAmountMap), addSumToMapFindMax(root.right, sumAmountMap)));
+	return sum;
     }
 }
