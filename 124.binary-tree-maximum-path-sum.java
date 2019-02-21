@@ -70,10 +70,9 @@ class Solution {
     public int maxPathSum2(TreeNode root) {
        	if (root == null) return 0;
 	if (root.left == null && root.right == null) return root.val;
-	int maxLeft = maxTraverse(root.left);
-	int maxRight = maxTraverse(root.right);
-	int max = root.val;
-	max = Math.max(max, Math.max(max + maxLeft, Math.max(max + maxRight, max + maxRight + maxLeft)));
+	int maxLeft = Math.max(maxTraverse(root.left),0);
+	int maxRight = Math.max(maxTraverse(root.right),0);
+	int max = root.val + maxLeft + maxRight;
 	if (root.left != null) max = Math.max(max, maxPathSum(root.left)); 
 	if (root.right != null) max = Math.max(max, maxPathSum(root.right)); 
 	return max;
