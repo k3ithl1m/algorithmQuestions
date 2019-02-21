@@ -67,7 +67,7 @@ class Solution {
 	// 	so it chooses between, just the root itself, root plus max of left and right, or no root 
 	// at all
 
-    public int maxPathSum(TreeNode root) {
+    public int maxPathSum2(TreeNode root) {
        	if (root == null) return 0;
 	if (root.left == null && root.right == null) return root.val;
 	int maxLeft = maxTraverse(root.left);
@@ -84,4 +84,23 @@ class Solution {
 	int max = Math.max(root.val, Math.max(maxTraverse(root.left), maxTraverse(root.right)) + root.val);
 	return max;
     }
+
+	
+
+
+
+
+	public int maxPathSum(TreeNode root) {
+		int[] storeMax = new int[]{Integer.MIN_VALUE};
+		findMax(root, storeMax);
+		return storeMax[0];
+	}
+
+	private int findMax(TreeNode root, int[] storeMax) {
+		if (root == null) return 0;
+		int left = Math.max(findMax(root.left, storeMax), 0);
+		int right = Math.max(findMax(root.right, storeMax), 0);
+		storeMax[0] = Math.max(storeMax[0], root.val + left + right);
+		return root.val + Math.max(left, right);
+	}
 }
