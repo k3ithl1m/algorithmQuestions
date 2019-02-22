@@ -56,8 +56,9 @@ class Solution {
 	int middle = start + (end-start)/2;
 	int index = start, leftstart = start, leftend = middle, rightstart = middle+1, rightend = end;
 	int min = Integer.MAX_VALUE;
-	for (int i = start; i <= leftend; i++) {
-		for 
+	for (int i = start, j=rightstart; i <= leftend; i++) {
+		while(j<= rightend && pairs[i]/2.0 > pairs[j]) j++;
+		count[0] += j-(rightstart);
 	}
 	while (leftstart <= leftend && rightstart <= rightend) {
 		int leftval = pairs[leftstart];
@@ -69,15 +70,11 @@ class Solution {
 		} else {
 			subarray[index++] = leftval;
 			leftstart++;
-			if (leftval > 2*min) {
-				count[0]++;
-			}
 		}
 	}
 
 	while(leftstart<=leftend) {
-		subarray[index++] = pairs[leftstart];
-		if (pairs[leftstart++] > 2*min) count[0]++;
+		subarray[index++] = pairs[leftstart++];
 	}
 
 	while(rightstart<=rightend) {
