@@ -53,7 +53,7 @@ public class Codec {
 	Stack<TreeNode> treeNodeStack = new Stack<TreeNode>();
 	treeNodeStack.push(root);	
 	while(!treeNodeStack.isEmpty()) {
-		
+		if (
 	}
     }
 }
