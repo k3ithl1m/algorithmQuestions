@@ -348,4 +348,61 @@ public void breadthFirstSearch(TreeNode root) {
 Man this is one long java DSA note already, but lets push on!
 
 
+#Merge Sort (a divide and conquer approach)
+=========================================
+Some of the things that I use to suck at and still love is stuff like Merge sort. The thought process is really
+easy. But implementing it can get a little tough at times. It's basically a sorting mechanism.
+But it can be used to solve some problems. And when it solves them, it guarantees a O(nlgn) solution
+```java
+public void sortWithMerge(int[] array) {
+	//we want to sort everything within the array. Therefore we use array.length - 1
+	mergesort(array, new int[array.length], 0, array.length-1);
+}
 
+private void mergesort(int[] array, int[] subarray, int start, int end) {
+	//Right here, we want to cut it off at start >= end, because if start is equals to end, then they
+	//are basically pointing towards the same number. And we can't merge that crap, cause there ain't
+	//nothing to merge
+	if (start>=end) return;
+	int middle = start + (end - start) / 2;
+	mergesort(array, subarray, start, middle);
+	mergesort(array, subarray, middle + 1, end);
+	mergearray(array, subarray, start, end);
+}
+
+private void mergearray(int[] array, int[] subarray, int start, int end) {
+	int middle = start + (end - start) / 2;
+	
+	//The next few variables is to divide stuff into partition so that we can move across it
+	//and index to copy everything else to the other array and keeping track of position
+	int leftstart = start, leftend = middle;
+	int rightstart = middle + 1, rightend = end;
+	int index = start
+	
+	//leftstart <= leftend, cause we want to go all the way till the end, same with right
+	while (leftstart <= leftend && rightstart <= rightend) {
+		if (array[leftstart] > array[rightstart]) {
+			subarray[index++] = array[rightstart++];
+		} else {
+			subarray[index++] = array[leftstart++];
+		}
+	}
+
+	//Now we want to put the rest of the stuff that are not touched into the subarray
+	//We can use System.arraycopy, but i prefer while loop cause the logic is easier
+	//to understand than memorize
+	while (leftstart <= leftend) {
+		subarray[index++] = array[leftstart++];
+	}
+
+	while (rightstart <= rightend) {
+		subarray[index++] = array[rightstart++];
+	}
+
+	//then we copy everything back to the original array
+	//We can use start and end here just because start and end are not gonna be used after this.
+	while (start <= end) {
+		array[start] = subarray[start++];
+	}
+}
+```
