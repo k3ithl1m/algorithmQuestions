@@ -66,26 +66,26 @@ public void sortingInput(int[] array) {
 =============================
 While we're talking about edge cases, it's also good to ask some questions while you're solving your problems.
 
-1. ##**What is the time and space complexity that you would prefer?**
+###1. **What is the time and space complexity that you would prefer?**
     * It shows that you put time and space complexity in mind
 
-2. ##**Is there a maximum length/size to this input? (How big can the input get)**
+###2. **Is there a maximum length/size to this input? (How big can the input get)**
     * Shows that you put scalability in mind and that you understand that size, memory and stack space goes 
   hand in hand.
     * You can show your knowledge and understanding of how computer works by knowing when or when not to use recursion:
   "Oh, we shouldn't use a recursive function then, because it takes up a maximum of 10,000 stack space. We
    should use an iterative solution because it's based on RAM!"
 
-3. ##**How big is the range of values?**
+###3. **How big is the range of values?**
     * Same deal with #2
 
-4. ##**What kind of values are there? Negative Numbers? Floating points? Empty Inputs?**
+###4. **What kind of values are there? Negative Numbers? Floating points? Empty Inputs?**
     * Shows that you watch out for details and thinks about the edge cases.
 
-5. ##**What are some extreme cases of the inputs?**
+###5. **What are some extreme cases of the inputs?**
     * Helps you get useful hints if he tells you, but also show that you're an engineer who looks at the whole picture
 
-6. ##**Can I destroy/alter the original data structure?**
+###6. **Can I destroy/alter the original data structure?**
     * Allows you to know what you can or cannot do.
 
 
