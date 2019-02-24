@@ -1,4 +1,5 @@
 ###JAVA DS&A###
+==============
 
 This will be a guide and reference to using the data structures and algorithms in Java.
 
@@ -32,6 +33,7 @@ for (Map.Entry<String, Integer> entrySet : stringToIntegerMap.entrySet()) {
 
 
 #Comparators
+============
 Comparators are used for sorting a lot. And sometimes you just want to sort it in a way you want.
 Most Collections sorts in ascending order. So from smaller to big. 
 It can be really hard to remember how to write a comparator, but here's a few things to help with
@@ -70,6 +72,7 @@ a = 2, b = 3 -> b is in the map already
 
 
 #TreeMap
+============
 The Treemap are one of the best maps. Not necessarily time complexity wise, because it takes O(lgN) to put.
 and basically O(lgN) to do everything since it's not an array with hashcode.
 But the greatest thing about this is that everything is sorted. But only based on the keys!
@@ -119,6 +122,7 @@ Pulling something out, is always POLL!
 
 
 #PriorityQueue(Heap)
+===================
 A heap basically is a linked list or queue that is sorted.
 Initialization is ascending
 ```
@@ -165,6 +169,7 @@ All Collections can be check whether its empty by using isEmpty()!
 
 
 #Stack
+======
 Stacks uses a Last in First Out rule. So imagine a stack of cards, you can only take the top out first.
 ```
 Stack<Integer> integerStack = new Stack<>();
@@ -198,6 +203,7 @@ integerTreeSet.contains(element); //->Same thing as above	O(lgN) it's a tree
 
 
 #List
+======
 List is basically an array with functions.
 There are two types of list. LinkedList and ArrayList, its the time complexity that is different
 ```
@@ -237,6 +243,7 @@ for (int i = 0; i < integerArrayList.size(); i++) {
 
 
 #Trees
+======
 Trees basically follow three rules. Preorder, Inorder and Postorder. And it's really hard to remember how
 each works. So I think the best way to remember how it works is literally the code.
 ```
@@ -269,6 +276,7 @@ as Easy as that!
 
 
 #Depth First Search (DFS)
+========================
 Depth first search is basically going deep first, and all the previous traversal are depth first search.
 You can not use recursion by using a STACK! to do it iteratively.
 Using recursion, you might run out of stack space, stack overflow
@@ -311,6 +319,7 @@ public void dfsIterativeInOrder(TreeNode root) {
 
 
 #Breadth First Search (BFS)
+=========================
 Breadth first search is where we visit everything around us first before we go on.
 We normally associate it with level order traversal.
 Remember! BBQ -> Use a queue!
