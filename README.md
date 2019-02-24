@@ -8,7 +8,7 @@ This will be a guide and reference to using the data structures and algorithms i
 A hashmap generally run in O(1) time to put and get because it uses a hashcode to store in a unique position
 However, Space will be O(n), Duuuuhhh.
 Generally, if you use any data structure, space will be O(N);
-```
+```java
 HashMap<String, Integer> stringToIntegerMap = new HashMap<String, Integer>();
 stringToIntegerMap.size(); //-> returns the size of the map O(1)
 stringToIntegerMap.get(key); //-> gets the value of key, O(1) 
@@ -24,7 +24,7 @@ stringToIntegerMap.entrySet(); //-> returns a set of Map.Entry<String, Integer>;
 #Map.Entry
 Hashmaps are generally made out of entries. an entry basically has a key and a value. 
 and to get them, you just use getValue or getKey
-```
+```java
 for (Map.Entry<String, Integer> entrySet : stringToIntegerMap.entrySet()) {
 	entrySet.getValue(); //-> returns the value of that certain entry set
 	entrySet.getKey(); //-> returns the key of that certain entry set
@@ -38,7 +38,7 @@ Comparators are used for sorting a lot. And sometimes you just want to sort it i
 Most Collections sorts in ascending order. So from smaller to big. 
 It can be really hard to remember how to write a comparator, but here's a few things to help with
 the process
-```
+```java
 //In General, you want to create a new Comparator when you initialize something. And some things
 //that you have to remember is that the input you take after has to be the same.
 //If you take in Integer but use int later, you will get errors like Error(anonymous abstract blah blah)
@@ -76,7 +76,7 @@ a = 2, b = 3 -> b is in the map already
 The Treemap are one of the best maps. Not necessarily time complexity wise, because it takes O(lgN) to put.
 and basically O(lgN) to do everything since it's not an array with hashcode.
 But the greatest thing about this is that everything is sorted. But only based on the keys!
-```
+```java
 //Lets initialize a string that sorts the keys based on the strings lexographical-y length
 //in DESCENDING order.
 TreeMap<String, Integer> stringToIntTreeMap = new TreeMap<String, Integer>(new Comparator<String>() {
@@ -125,7 +125,7 @@ Pulling something out, is always POLL!
 ===================
 A heap basically is a linked list or queue that is sorted.
 Initialization is ascending
-```
+```java
 PriorityQueue<Map.Entry<Integer, Integer>> minHeap = new PriorityQueue<>(
 	new Comparator<Map.Entry<Integer, Integer>>() {
 		@Override
@@ -147,7 +147,7 @@ minHeap.poll(); //->pull out the first object. You can pull the last		O(lgN) cau
 Queues are queues, heaps are just fancier and queues that do certain things. (sorting)
 Queues follow the first in first out rule. What comes in first goes out first
 The thing about java is that there isn't a queue collection. But, its basically a linked list
-```
+```java
 Queue<Integer> integerQueue = new LinkedList<>();
 integerQueue.add(element); //->Adds the element to the end of the list	O(1) we have access to first and last
 integerQueue.addFirst(element); //->Adds to the start of the list 	O(1)
@@ -171,7 +171,7 @@ All Collections can be check whether its empty by using isEmpty()!
 #Stack
 ======
 Stacks uses a Last in First Out rule. So imagine a stack of cards, you can only take the top out first.
-```
+```java
 Stack<Integer> integerStack = new Stack<>();
 integerStack.peek(); //-> Look at the top Deck					O(1)
 integerStack.push(); //-> push an integer onto the top of the stack		O(1)
@@ -184,7 +184,7 @@ Honestly, if you use anything other than those few plus size and is empty, then 
 Sets allows you to check if something exists. It's basically a map, but theres no values.
 There are HashSet and TreeSet
 HashSets are not sorted, TreeSets are
-```
+```java
 HashSet<Integer> integerSet = new HashSet<Integer>();
 TreeSet<Integer> integerTreeSet = new TreeSet<Integer>(new Comparator<Integer>() {
 	//remember that you have to use Integer if its Integer,
@@ -206,7 +206,7 @@ integerTreeSet.contains(element); //->Same thing as above	O(lgN) it's a tree
 ======
 List is basically an array with functions.
 There are two types of list. LinkedList and ArrayList, its the time complexity that is different
-```
+```java
 ArrayList<Integer> integerArrayList = new ArrayList<>();
 LinkedList<Integer> integerLinkedList = new LinkedList<>();
 
@@ -246,7 +246,7 @@ for (int i = 0; i < integerArrayList.size(); i++) {
 ======
 Trees basically follow three rules. Preorder, Inorder and Postorder. And it's really hard to remember how
 each works. So I think the best way to remember how it works is literally the code.
-```
+```java
 //PREorder -> before traversing
 public void traverse(TreeNode root) {
 	//Always do edge cases!
@@ -285,7 +285,7 @@ To remember whether we use Stack or Queue for DFS or BFS, think this.
 BFS = BBQ -> Use Queue since it ends with Q
 DFS -> use Stack, because BFS uses Queue already
 
-```
+```java
 //We'll do preorder just for the sake of it, plus its a lot easier
 public void depthFirstIterative(TreeNode root) {
 	if (root == null) return;
@@ -323,7 +323,7 @@ public void dfsIterativeInOrder(TreeNode root) {
 Breadth first search is where we visit everything around us first before we go on.
 We normally associate it with level order traversal.
 Remember! BBQ -> Use a queue!
-```
+```java
 public void breadthFirstSearch(TreeNode root) {
 	if (root == null) return;
 	
