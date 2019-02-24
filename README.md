@@ -6,6 +6,11 @@
 
 This will be a guide and reference to using the data structures and algorithms in Java.
 
+Before we get into some deep technical shhhhizzzzaa. Here's a great article by ma boi [Bernie](https://github.com/bern)!
+**[Mastering Technical Interviews: A Human Approach](https://medium.com/@berniemarger/mastering-technical-interviews-a-human-approach-ba1916804fa2?fbclid=IwAR2Nj1b6EgZ6TbZ5-ESJMa1NGa19avrAHEuBi9TeTP-Nb7A5Qfo11SGpE1E)**
+>Cause in the end, we're all humans after all
+>Keith
+
 Before we move forward with some Data structures, it's good to know a few things about inputs and edge cases.
 
 #Edge Cases
