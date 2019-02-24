@@ -3,8 +3,95 @@
 
 This will be a guide and reference to using the data structures and algorithms in Java.
 
+Before we move forward with some Data structures, it's good to know a few things about inputs and edge cases.
+
+#Edge Cases
+==========
+In every problem, there is an input and output. What we care more is about the input. Inputs that will
+break our program if we are not careful with it. The inputs that we call edge cases. Where it's
+right at the edge that people normally don't think about.
+```
+/*Arrays*/
+public void arrayInputs(int[] array) {
+	//We have to check whether it is empty or not
+	//or if there's only one input
+	if (array == null || array.length == 0) return;
+	if (array.length == 1) doSomething();
+}
+
+/*Tree*/
+public void treeInputs(TreeNode root) {
+	//Always check if they are null or not
+	if (root == null) return;
+}
+
+/*LinkedList*/
+public void linkedListInput(ListNode head) {
+	//Same thing
+	if (head  == null) return;
+}
+
+/*Integer*/
+public void integerInput(int num) {
+	//It might either be 0, min/max or negative
+	//Always remember to check overflow
+}
+
+/*Strings*/
+public void stringInput(String str) {
+	//if string is empty
+	if (str == null || str.length() == 0) return;
+	
+	//Special Characters?
+	//Long String?
+	//Odd/Even length String?
+}
+
+/*Sorting*/
+public void sortingInput(int[] array) {
+	//Empty Input or if there's only 1
+	if (array == null || array.length == 0) return;
+	if (array.length == 1) return;
+
+	//Some stuff to check:
+	//Null Input?
+	//Duplicate elements
+	//Collection with all elements equal
+	//odd/even length input
+	//very long input
+}
+```
+
+#Questions to Ask for quality
+=============================
+While we're talking about edge cases, it's also good to ask some questions while you're solving your problems.
+
+1. What is the time and space complexity that you would prefer?
+    * It shows that you put time and space complexity in mind
+
+2. Is there a maximum length/size to this input? (How big can the input get)
+    * Shows that you put scalability in mind and that you understand that size, memory and stack space goes 
+  hand in hadn.
+    * You can show your knowledge and understanding of how computer works by knowing when or when not to use recursion:
+  "Oh, we shouldn't use a recursive function then, because it takes up a maximum of 10,000 stack space. We
+   should use an iterative solution because it's based on RAM!"
+
+3. How big is the range of values?
+    * Same deal with #2
+
+4. What kind of values are there? Negative Numbers? Floating points? Empty Inputs?
+    * Shows that you watch out for details and thinks about the edge cases.
+
+5. What are some extreme cases of the inputs? 
+    * Helps you get useful hints if he tells you, but also show that you're an engineer who looks at the whole picture
+
+6. Can I destroy/alter the original data structure?
+    * Allows you to know what you can or cannot do.
+
+
 
 #HashMaps
+=========
 A hashmap generally run in O(1) time to put and get because it uses a hashcode to store in a unique position
 However, Space will be O(n), Duuuuhhh.
 Generally, if you use any data structure, space will be O(N);
