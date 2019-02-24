@@ -35,7 +35,7 @@
  * }
  */
 class Solution {
-    public ListNode reverseList(ListNode head) {
+    public ListNode reverseList1(ListNode head) {
 	if (head == null) return head;
 	ListNode prev = null;
 	ListNode current = head;
@@ -46,5 +46,19 @@ class Solution {
 		current = nextNode;
 	}        
 	return prev;
+    }
+
+    public ListNode reverseList(ListNode head) {
+	if (head == null) return null;
+	ListNode next = head;
+	ListNode back = head;
+	ListNode front = head;
+	while(back.next != null) {
+		next = back.next;
+		back.next = next.next;
+		next.next = front;
+		front = next;
+	}
+	return front;
     }
 }
