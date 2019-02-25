@@ -48,19 +48,11 @@ class Solution {
 	while(rightPointer < s2.length()) {
 		char currentChar = s2.charAt(rightPointer++);
 		charMap[currentChar]--;
-		if (charMap[currentChar] >= 0) length--;
-		else {
-			char incrementChar = s2.charAt(leftPointer);
-			while (charMap[incrementChar] < 0) {
-				charMap[incrementChar]++;
-				if (charMap[incrementChar] >= 0) length++;
-				if (++leftPointer >= s2.length()) return false;
-				incrementChar = s2.charAt(leftPointer);
-			}
-		}
-		if (length <= 0) return true;
+		if (charMap[currentChar] < 0) {
+			while(++charMap[s2.charAt(leftPointer++)] != 0){}
+		} else if (rightPointer - leftPointer == s1.length()) return true;
 		
 	}
-	return false;
+	return s1.length() == 0;
     }
 }
