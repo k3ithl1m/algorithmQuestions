@@ -35,6 +35,25 @@
  */
 class Solution {
     public int findMin(int[] nums) {
-        
+	if (nums.length == 0) return 0;
+	if (nums.length == 1) return nums[0];
+	int left = nums[0], right = nums[nums.length - 1];
+	if (left < right) return left;
+	int leftPointer = 0, rightPointer = nums.length;
+	int result = 0;
+	while (leftPointer < rightPointer) {
+		int middlePointer = leftPointer + (rightPointer - leftPointer) / 2;
+		int middle = nums[middlePointer];
+		if (middlePointer > 0 && middle < nums[middlePointer - 1]) {
+			result = middle;
+			break;
+		} else if (middle < left && middle < right) {
+			rightPointer = middlePointer;
+		} else {
+			leftPointer = middlePointer;
+		}
+	}        
+
+	return result;
     }
 }

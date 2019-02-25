@@ -504,3 +504,33 @@ private void mergearray(int[] array, int[] subarray, int start, int end) {
 	}
 }
 ```
+
+
+#BinarySearch
+=============
+When we are doing searching. We want to find everything in between leftmost and rightmost.
+We can do that by always checking the middle. One thing to keep note is that the left pointer has to always
+be smaller then the rightpointer. If we allow it to be equals, then we will get into an infinite loop.
+
+After checking the middle, we want to either assign leftpointer as middle or rightpointer as middle.
+If middle is bigger than the value that we are searching for: rightpointer = middle - 1
+If middle is smaller than the value that we are searching for: leftpointer = middle + 1
+
+Notice that we are using middle - 1 or middle + 1, but never just assigning middle to left or right pointer. 
+This is because we want to search IN the range of the values that we HAVEN'T look at yet.
+If we have check middle then we want to assign pointers to the left or right of middle!
+```java
+public boolean binarySearchSortedArray(int[] nums, int val) {
+	//Check edge cases.
+	if (nums.length == 0) return false;
+	if (nums.length == 1) return (nums[0] == val) ? true : false;
+	int left = 0, right = nums.length - 1;
+	while (left < right) {
+		int middle = left + (right - left) / 2;
+		if (nums[middle] == val) return true;
+		else if (nums[middle] > val) right = middle - 1;
+		else left = middle + 1;
+	}
+	return false;
+}
+```
