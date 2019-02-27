@@ -80,6 +80,28 @@
  */
 class Solution {
     public int calculateMinimumHP(int[][] dungeon) {
-        
+	if (dungeon == null || dungeon.length == 0 || dungeon[0].length == 0) return 0;
+	
+	int m = dungeon.length;
+	int n = dungeon[0].length;
+	int[][] dungeonCache = new int[dungeon.length][dungeon[0].length];
+	for (int i = dungeon.length - 1; i >= 0; i--) {
+		for (int j = dungeon[0].length - 1; j >= 0; j--) {
+			if (i == m-1 && j == n-1) {
+				dungeonCache[i][j] = Math.max(1-dungeon[i][j], 1);
+			} else if (i == m-1) 
+				dungeonCache[i][j] = Math.max(dungeonCache[i][j+1] - dungeon[i][j], 1);
+			else if (j == n - 1) 
+				dungeonCache[i][j] = Math.max(dungeonCache[i+1][j] - dungeon[i][j], 1);
+			else {
+				int down = Math.max(dungeonCache[i+1][j] - dungeon[i][j], 1);
+				int right = Math.max(dungeonCache[i][j+1] - dungeon[i][j], 1);
+				dungeonCache[i][j] = Math.min(down, right);
+			}
+		}
+	}
+
+	return dungeonCache[0][0];
     }
+	
 }
