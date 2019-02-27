@@ -5,8 +5,7 @@
  *
  * https://leetcode.com/problems/search-in-rotated-sorted-array-ii/description/
  *
- * algorithms
- * Medium (32.50%)
+ * algorithms * Medium (32.50%)
  * Total Accepted:    157.3K
  * Total Submissions: 484K
  * Testcase Example:  '[2,5,6,0,0,1,2]\n0'
@@ -49,15 +48,14 @@ class Solution {
 	while (left <= right) {
 		int middle = left + (right - left) / 2;
 		if (nums[middle] == target || nums[left] == target || nums[right] == target) return true;
-		if (nums[middle] > nums[left]) {
-			if (target < nums[middle] && target >= nums[left]) right = middle;
-			else left = middle + 1;
+		if (nums[left] < nums[middle]) {
+			if (nums[middle] > target && nums[left] < target) {
+				right = middle;
+			} else left = middle;
 		} else if (nums[middle] < nums[left]) {
-			if (target > nums[middle] && target <= nums[right]) left=middle;
-			else right = middle - 1;
-		} else {
-			left++;
-		}
+			if (nums[middle] < target && nums[right] > target) left = middle;
+			else right = middle;
+		} else left++;
 	}        
 	return false;
     }
