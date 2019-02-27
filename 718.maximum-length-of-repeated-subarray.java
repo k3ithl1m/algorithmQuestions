@@ -36,15 +36,13 @@ class Solution {
 
     public int findLength(int[] A, int[] B) {
 	if (A == null || A.length == 0 || B == null || B.length == 0) return 0;
-	int[] Bmemo = new int[B.length + 1];
+	int[][] memo = new int[A.length+1][B.length + 1];
 	int maxLength = 0;
 	for (int i = 1; i <= A.length; i++) {
-		for (int j = B.length; j >=1; j--) {
+		for (int j = 1; j <= B.length; j++) {
 			if (A[i-1] == B[j-1]) {
-				Bmemo[j] = Bmemo[j-1] + 1;
-				maxLength = Math.max(maxLength, Bmemo[j]);
-			} else {
-				Bmemo[j] = 0;
+				memo[i][j] = memo[i-1][j-1] + 1;
+				maxLength = Math.max(memo[i][j], maxLength);
 			}
 		}
 	}
