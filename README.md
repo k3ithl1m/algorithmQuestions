@@ -525,7 +525,9 @@ public boolean binarySearchSortedArray(int[] nums, int val) {
 	if (nums.length == 0) return false;
 	if (nums.length == 1) return (nums[0] == val) ? true : false;
 	int left = 0, right = nums.length - 1;
-	while (left < right) {
+	//that equals sign is very important cause you wont be able to find the right answer
+	//for odd amount of values
+	while (left <= right) {
 		int middle = left + (right - left) / 2;
 		if (nums[middle] == val) return true;
 		else if (nums[middle] > val) right = middle - 1;

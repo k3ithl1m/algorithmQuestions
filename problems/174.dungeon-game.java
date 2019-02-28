@@ -6,9 +6,9 @@
  * https://leetcode.com/problems/dungeon-game/description/
  *
  * algorithms
- * Hard (26.41%)
+ * Hard (26.42%)
  * Total Accepted:    61.8K
- * Total Submissions: 233.9K
+ * Total Submissions: 233.8K
  * Testcase Example:  '[[-2,-3,3],[-5,-10,1],[10,30,-5]]'
  *
  * table.dungeon, .dungeon th, .dungeon td {
