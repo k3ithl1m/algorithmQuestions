@@ -95,7 +95,6 @@ class Solution {
         }
 
         //update tails of current subsequence with length of left + 1
-	System.out.println("e " + i + " tails " + tails[left] + " envelope" + envelope[1] + " result" + result);
         tails[left] = envelope[1];
         //if updated subsequence is the longest one, increase result size by 1
         if (left == result) {
