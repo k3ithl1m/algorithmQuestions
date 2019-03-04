@@ -36,6 +36,27 @@
 class Solution {
     public int findMin(int[] nums) {
 	if (nums.length == 0) return 0;
+	if (nums.length == 1) return nums[1];
+	if (nums.length == 2) return (nums[0] > nums[1]) ? nums[1] : nums[0];
+	int left = 0, right = nums.length - 1;
+	while (left <= right) {
+		int mid = left + (right - left) / 2;
+		if (mid - 1 >= 0 && nums[mid] < nums[mid-1]) return nums[mid];
+		else if (mid - 1 < 0) return nums[mid];
+		
+		if (nums[mid] > nums[left]) {
+			if (nums[mid] > nums[mid-1]
+		}
+	}
+    }
+
+
+
+
+
+
+    public int findMin2(int[] nums) {
+	if (nums.length == 0) return 0;
 	if (nums.length == 1) return nums[0];
 	int left = nums[0], right = nums[nums.length - 1];
 	if (left < right) return left;
