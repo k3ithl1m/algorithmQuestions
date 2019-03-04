@@ -65,6 +65,26 @@ class Solution {
 		else return false;
 	}        
 	String[] elementArray = preorder.split(",");
+	Stack<String> nodeStack = new Stack<>();
+	for (int i = 0; i < elementArray.length; i++) {
+		String currentNode = elementArray[i];
+		while (currentNode.equals("#") && !nodeStack.isEmpty() && nodeStack.peek().equals("#")) {
+			nodeStack.pop();
+			if (nodeStack.isEmpty()) return false;
+			nodeStack.pop();
+		}
+		nodeStack.push(currentNode);
+	}
+	return nodeStack.size() == 1 && nodeStack.peek().equals("#");
+    }
+
+    public boolean isValidSerialization2(String preorder) {
+	if (preorder.length() <= 0) return true;
+	if (preorder.length() == 1) {
+		if (preorder.charAt(0) == '#') return true;
+		else return false;
+	}        
+	String[] elementArray = preorder.split(",");
 	int leaves = 0;
 	if (!elementArray[0].equals("#")) leaves = 1;
 	else return false;
