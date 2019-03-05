@@ -59,39 +59,41 @@
  */
 class Solution {
     public boolean isValidSerialization(String preorder) {
-	if (preorder.length <= 0) return true;
-	if (preorder.length == 1) {
+	if (preorder.length() <= 0) return true;
+	if (preorder.length() == 1) {
 		if (preorder.charAt(0) == '#') return true;
 		else return false;
 	}        
-	String[] elementArray = preorder.split(',');
-	TreeNode root = new TreeNode(elementArray[0]);
-	if (root.val.charAt(0) == '#') return false;
-	Stack<TreeNode> treeNodeStack = new Stack<>();
-	treeNodeStack.push(root);
-	for (int i = 1; i < elementArray.length; i++) {
-		String currentString = elementArray[i];
-		TreeNode topStackNode = treeNodeStack.peek();
-		if (currentString.charAt(0) != '#') {
-			TreeNode nextNode = new TreeNode(currentString);
-			while(!appended && !treeNodeStack.isEmpty()) {
-				if (topStackNode.left == null) topStackNode.left = nextNode;
-				else if (topStackNode.right == null) topStackNode.right = nextNode;
-				else {
-					treeNodeStack.pop();
-					topStackNode = treeNodeStack.peek();
-				}
-			}
+	String[] elementArray = preorder.split(",");
+	Stack<String> nodeStack = new Stack<>();
+	for (int i = 0; i < elementArray.length; i++) {
+		String currentNode = elementArray[i];
+		while (currentNode.equals("#") && !nodeStack.isEmpty() && nodeStack.peek().equals("#")) {
+			nodeStack.pop();
+			if (nodeStack.isEmpty()) return false;
+			nodeStack.pop();
 		}
+		nodeStack.push(currentNode);
 	}
+	return nodeStack.size() == 1 && nodeStack.peek().equals("#");
+    }
+
+    public boolean isValidSerialization2(String preorder) {
+	if (preorder.length() <= 0) return true;
+	if (preorder.length() == 1) {
+		if (preorder.charAt(0) == '#') return true;
+		else return false;
+	}        
+	String[] elementArray = preorder.split(",");
+	int leaves = 0;
+	if (!elementArray[0].equals("#")) leaves = 1;
+	else return false;
+	for (String node: elementArray) {
+		if (leaves <= 0) return false;
+		if (node.equals("#")) leaves--;
+		else leaves++;
+	}
+	return leaves == 0;
     }
 }
 
-class TreeNode {
-	TreeNode left;
-	TreeNode right;
-	String element;
-	public TreeNode(String element) {
-		this.element = element;
-	}
-}
