@@ -43,6 +43,14 @@
  * size for non-empty array.
  */
 class Solution {
+   
+
+    public double[] medianSlidingWindow(int[] nums, int k) {
+	if (nums.length == 0) return new double[0];
+	PriorityQueue
+    }
+
+
     public double[] medianSlidingWindow2(int[] nums, int k) {
 	PriorityQueue<Integer> lowerBound = new PriorityQueue<Integer>(Collections.reverseOrder());
 	PriorityQueue<Integer> upperBound = new PriorityQueue<Integer>();
@@ -78,7 +86,7 @@ class Solution {
 	return result;
     }
 
-   public double[] medianSlidingWindow(int[] nums, int k) {
+   public double[] medianSlidingWindow2(int[] nums, int k) {
     if (k == 0) return new double[0];
     double[] ans = new double[nums.length - k + 1];
     int[] window = new int[k];
