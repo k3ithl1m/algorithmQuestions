@@ -373,6 +373,12 @@ public void traverse(TreeNode root) {
 as Easy as that!
 
 
+#Binary Search Trees
+===================
+@TODO Keith
+However, there is a different kind of tree called BST
+
+
 #Depth First Search (DFS)
 ========================
 Depth first search is basically going deep first, and all the previous traversal are depth first search.
