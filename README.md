@@ -373,6 +373,12 @@ public void traverse(TreeNode root) {
 as Easy as that!
 
 
+#Binary Search Trees
+===================
+@TODO Keith
+However, there is a different kind of tree called BST
+
+
 #Depth First Search (DFS)
 ========================
 Depth first search is basically going deep first, and all the previous traversal are depth first search.
@@ -534,5 +540,28 @@ public boolean binarySearchSortedArray(int[] nums, int val) {
 		else left = middle + 1;
 	}
 	return false;
+}
+```
+
+
+#LinkedList
+==========
+Linked list is basically a list that are linked together. However there are some things that are good to know to
+understand how to code them. 
+
+```java
+public ListNode linkedListMiddleNode(ListNode head) {
+	if (head == null) return head;
+	ListNode slow = head, fast = head, prev = null;
+	while (fast != null && fast.next != null) {
+		prev = slow;
+		slow = slow.next;
+		fast = fast.next.next;
+	}
+	//To get the longer line/make the start of the right line after the longer one
+	//1->2->3->4->5    this will return 4 as slow;
+	prev = slow;
+	slow = slow.prev;
+	prev.next = null; //This is if you want to break things up to merge and stuff
 }
 ```
