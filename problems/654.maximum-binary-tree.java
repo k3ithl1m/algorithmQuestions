@@ -1,8 +1,7 @@
 /*
  * @lc app=leetcode id=654 lang=java
  *
- * [654] Maximum Binary Tree
- *
+ * [654] Maximum Binary Tree *
  * https://leetcode.com/problems/maximum-binary-tree/description/
  *
  * algorithms
@@ -59,7 +58,26 @@
  * }
  */
 class Solution {
+    //the question is, do we have to always find the max number?
+    //the easiest way is to recurse while looping the start to end.
     public TreeNode constructMaximumBinaryTree(int[] nums) {
-        
+        TreeNode root = constructTreeNode(nums, 0, nums.length);
+	return root;
+    }
+
+    private TreeNode constructTreeNode(int[] nums, int start, int end) {
+	if (start == end) return null;
+	int maxPosition = start, maxValue = Integer.MIN_VALUE;
+	for (int i = start; i < end; i++) {
+		if (nums[i] > maxValue) {
+			maxPosition = i;
+			maxValue = nums[i];
+		}
+	}
+
+	TreeNode root = new TreeNode(maxValue);
+	root.left = constructTreeNode(nums, start, maxPosition);
+	root.right = constructTreeNode(nums, maxPosition+1, end);
+	return root;
     }
 }
