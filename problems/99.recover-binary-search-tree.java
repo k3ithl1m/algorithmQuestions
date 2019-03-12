@@ -85,14 +85,17 @@ class Solution {
     private void traverse(TreeNode root, TreeNode[] nodeStore) {
 	if (root == null) return;
 	traverse(root.left, nodeStore);
-	System.out.println(root.val);
 	checkNode(root, nodeStore);
 	nodeStore[2] = root;
 	traverse(root.right, nodeStore);
     }
 
     private void checkNode(TreeNode root, TreeNode[] nodeStore) {
-	if (nodeStore[0] == null && nodeStore[2].val >= root.val) nodeStore[0] = nodeStore[2];
-	if (nodeStore[0] != null && nodeStore[2].val >= root.val) nodeStore[1] = root;
+	if (nodeStore[0] == null && nodeStore[2].val >= root.val) {
+		nodeStore[0] = nodeStore[2];
+	}
+	if (nodeStore[0] != null && nodeStore[2].val >= root.val) {
+		nodeStore[1] = root;
+	}
     }
 }

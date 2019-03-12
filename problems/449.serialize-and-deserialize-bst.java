@@ -41,20 +41,28 @@ public class Codec {
 
     // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
-	if (root == null) return "null" + "#";
-	String resultString = root.val + "#" + serialize(root.left) + serialize(root.right);
+	if (root == null) return "";
+	String resultString = root.val + "," + serialize(root.left)  + serialize(root.right);
 	return resultString;
     }
 
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
-       	String[] valArray = data.split("#"); 
-	TreeNode root = new TreeNode(Integer.parseInt(valArray[0]));
-	Stack<TreeNode> treeNodeStack = new Stack<TreeNode>();
-	treeNodeStack.push(root);	
-	while(!treeNodeStack.isEmpty()) {
-		if (
-	}
+	if (data.length() == 0) return null;
+	Queue<String> q = new LinkedList<>(Arrays.asList(data.split(",")));
+	return deserialize(q, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    private TreeNode deserialize(Queue<String> q, int lower, int upper) {
+	if (q.isEmpty()) return null;
+	String value = q.peek();
+	int val = Integer.parseInt(value);
+	if (val < lower || val > upper) return null;
+	q.poll();
+	TreeNode root = new TreeNode(val);
+	root.left = deserialize(q, lower, root.val);
+	root.right = deserialize(q, root.val, upper);
+	return root;
     }
 }
 
