@@ -208,7 +208,7 @@ stringToIntTreeMap.higherKey(num); //->get the value AFTER (only) to this key, t
 										//O(lgN) gotta search
 stringToIntTreeMap.floorKey(num); //->get the value BEFORE or EQUAL to this key, the key bigger in this context
 										//O(lgN) gotta search
-stringToIntTreeMap.ceilingKey(num); //->get the value BEFORE(only) to this key, the key bigger in this context
+stringToIntTreeMap.lowerKey(num); //->get the value BEFORE(only) to this key, the key bigger in this context
 										//O(lgN) gotta search
 ```
 Everything else in treeMap is the same as HashMap
