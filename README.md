@@ -376,7 +376,15 @@ as Easy as that!
 #Binary Search Trees
 ===================
 @TODO Keith
-However, there is a different kind of tree called BST
+However, there is a different kind of tree called BST. BST is defined as a tree where the:
+left children is smaller and equal to it's ancestors.
+right children is bigger than it's ancestors.
+
+Knowing that left child > root > right child:
+if we were to do an inorder traversal, where we visit the left child first, then current node, then right
+We then know that the visited nodes in this traversal would be: smallest to largest.
+
+With that knowledge, we can do a lot of [things](https://leetcode.com/problems/recover-binary-search-tree/) with inorder traversing a BST.
 
 
 #Depth First Search (DFS)
