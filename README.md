@@ -377,8 +377,8 @@ we will come up with a serialize tree where it's a string with values and X's.
 
 Here's an example from JobQ of leetcode
 
-![Serialization](https://github.com/keilim/algorithmQuestions/images/preorderSerialization.jpg)
-![Deserialization](https://github.com/keilim/algorithmQuestions/images/preorderDeserialization.jpg)
+![Serialization](https://github.com/k3ithl1m/algorithmQuestions/blob/master/images/preorderSerialization.jpg)
+![Deserialization](https://github.com/k3ithl1m/algorithmQuestions/blob/master/images/preorderDeserialization.jpg)
 
 
 #Binary Search Trees
