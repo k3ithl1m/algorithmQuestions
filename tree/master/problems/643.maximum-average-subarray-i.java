@@ -47,9 +47,8 @@ class Solution {
 		count++;
 		if (count > k) {
 			total -= nums[i - k];
-			count--;
 		}
-		if (count == k) {
+		if (count >= k) {
 			maxAverage = Math.max(maxAverage, (double)total / k);
 		}	
 	}
