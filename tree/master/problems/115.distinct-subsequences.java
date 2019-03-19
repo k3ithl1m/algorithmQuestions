@@ -65,8 +65,7 @@ class Solution {
 	if (s.length() == 0) return 0;
 	int[][] storeCount = new int[s.length()+1][t.length()+1];
 	for (int i = 0; i <= s.length(); i++) Arrays.fill(storeCount[i],-1);
-	backtrack(s, t, 0, 0, storeCount);
-	return storeCount[0][0];
+	return backtrack(s, t, 0, 0, storeCount);
     }
 
     private int backtrack(String s, String t, int sStart, int tStart, int[][] mem) {
@@ -80,6 +79,18 @@ class Solution {
 					backtrack(s, t, sStart+1, tStart + 1, mem);
 	}
 	else return mem[sStart][tStart] = backtrack(s, t, sStart + 1, tStart, mem);
+    }
+
+    private int backtrack2(String s, String t, int sStart, int tStart, int[][] mem) {
+	//if t is longer than s
+	if (sStart == s.length() && tStart < t.length()) return 0;
+	//if reach the end of t
+	if (tStart == t.length()) return 1;
+	if (s.charAt(sStart) == t.charAt(tStart)) {
+		return backtrack(s, t, sStart + 1, tStart, mem) + 
+					backtrack(s, t, sStart+1, tStart + 1, mem);
+	}
+	else return backtrack(s, t, sStart + 1, tStart, mem);
     }
 
     private void backtrack2(String s, String t, int sPos, int tPos, int[] storeCount) {
