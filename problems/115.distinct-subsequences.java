@@ -54,14 +54,31 @@
  * babgbag
  * ^    ^^
  * babgbag
- * ⁠ ^  ^^
+ *  ⁠ ^  ^^
  * babgbag
- * ⁠   ^^^
+ *  ⁠   ^^^
  * 
  * 
  */
 class Solution {
     public int numDistinct(String s, String t) {
-        
+	if (s.length() == 0) return 0;
+	int[] storeCount = new int[1];
+	backtrack(s, t, 0, 0, storeCount);
+	return storeCount[0];        
+    }
+
+    private void backtrack(String s, String t, int sPos, int tPos, int[] storeCount) {
+	if (sPos > s.length()) return;
+	if (tPos >= t.length()) {
+		storeCount[0]++;
+		return;
+	}
+	if (t.length() - tPos > s.length() - sPos) return;
+	for (int i = sPos; i < s.length(); i++) {
+		if (s.charAt(i) == t.charAt(tPos)) {
+			backtrack(s, t, i+1, tPos+1, storeCount);
+		}
+	}
     }
 }
