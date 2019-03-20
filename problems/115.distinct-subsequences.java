@@ -64,19 +64,33 @@ class Solution {
     public int numDistinct(String s, String t) {
 	if (s.length() == 0) return 0;
 	int[][] storeCount = new int[s.length()+1][t.length()+1];
-	for (int i = 0; i < storeCount.length; i++) Arrays.fill(storeCount[i], -1);
+	for (int i = 0; i <= s.length(); i++) Arrays.fill(storeCount[i],-1);
 	return backtrack(s, t, 0, 0, storeCount);
     }
 
-    private int backtrack(String s, String t, int sPos, int tPos, int[][] storeCount) {
-	if (storeCount[sPos][tPos] != -1) return storeCount[sPos][tPos];
-	if (sPos == s.length() && tPos < t.length()) return storeCount[sPos][tPos] = 0;
-	if (tPos == t.length()) return storeCount[sPos][tPos] = 1;
-	if (s.charAt(sPos) == t.charAt(tPos)) {
-		return storeCount[sPos][tPos] = backtrack(s, t, sPos + 1, tPos, storeCount) 
-				+ backtrack(s, t, sPos + 1, tPos + 1, storeCount);
+    private int backtrack(String s, String t, int sStart, int tStart, int[][] mem) {
+	if (mem[sStart][tStart] != -1) return mem[sStart][tStart];
+	//if t is longer than s
+	if (sStart == s.length() && tStart < t.length()) return mem[sStart][tStart] = 0;
+	//if reach the end of t
+	if (tStart == t.length()) return mem[sStart][tStart] = 1;
+	if (s.charAt(sStart) == t.charAt(tStart)) {
+		return mem[sStart][tStart] = backtrack(s, t, sStart + 1, tStart, mem) + 
+					backtrack(s, t, sStart+1, tStart + 1, mem);
 	}
-	return storeCount[sPos][tPos] = backtrack(s, t, sPos+1, tPos, storeCount);
+	else return mem[sStart][tStart] = backtrack(s, t, sStart + 1, tStart, mem);
+    }
+
+    private int backtrack2(String s, String t, int sStart, int tStart, int[][] mem) {
+	//if t is longer than s
+	if (sStart == s.length() && tStart < t.length()) return 0;
+	//if reach the end of t
+	if (tStart == t.length()) return 1;
+	if (s.charAt(sStart) == t.charAt(tStart)) {
+		return backtrack(s, t, sStart + 1, tStart, mem) + 
+					backtrack(s, t, sStart+1, tStart + 1, mem);
+	}
+	else return backtrack(s, t, sStart + 1, tStart, mem);
     }
 
     private void backtrack2(String s, String t, int sPos, int tPos, int[] storeCount) {
