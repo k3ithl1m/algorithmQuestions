@@ -38,15 +38,15 @@ class Solution {
 	for (char c : charArray) {
 		map[c-'a']--;
 		if (visited[c-'a']) continue;
-		while(!charQueue.isEmpty() && c < charQueue.peekLast() 
-			&& map[charQueue.peekLast()-'a']!=0) {
-			visited[charQueue.pollLast() -'a'] = false;
+		while(!charQueue.isEmpty() && c < charQueue.peek() 
+			&& map[charQueue.peek()-'a']!=0) {
+			visited[charQueue.pop() -'a'] = false;
 		}
-		charQueue.addLast(c);
+		charQueue.push(c);
 		visited[c-'a'] = true;
  	}
 	StringBuilder sb = new StringBuilder();
-	while (!charQueue.isEmpty()) sb.append(charQueue.removeFirst());
+	while (!charQueue.isEmpty()) sb.append(charQueue.removeLast());
 	return sb.toString();
     }
 
