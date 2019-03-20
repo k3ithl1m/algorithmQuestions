@@ -63,12 +63,37 @@
 class Solution {
     public int numDistinct(String s, String t) {
 	if (s.length() == 0) return 0;
-	int[] storeCount = new int[1];
-	backtrack(s, t, 0, 0, storeCount);
-	return storeCount[0];        
+	int[][] storeCount = new int[s.length()+1][t.length()+1];
+	for (int i = 0; i <= s.length(); i++) Arrays.fill(storeCount[i],-1);
+	return backtrack(s, t, 0, 0, storeCount);
     }
 
-    private void backtrack(String s, String t, int sPos, int tPos, int[] storeCount) {
+    private int backtrack(String s, String t, int sStart, int tStart, int[][] mem) {
+	if (mem[sStart][tStart] != -1) return mem[sStart][tStart];
+	//if t is longer than s
+	if (sStart == s.length() && tStart < t.length()) return mem[sStart][tStart] = 0;
+	//if reach the end of t
+	if (tStart == t.length()) return mem[sStart][tStart] = 1;
+	if (s.charAt(sStart) == t.charAt(tStart)) {
+		return mem[sStart][tStart] = backtrack(s, t, sStart + 1, tStart, mem) + 
+					backtrack(s, t, sStart+1, tStart + 1, mem);
+	}
+	else return mem[sStart][tStart] = backtrack(s, t, sStart + 1, tStart, mem);
+    }
+
+    private int backtrack2(String s, String t, int sStart, int tStart, int[][] mem) {
+	//if t is longer than s
+	if (sStart == s.length() && tStart < t.length()) return 0;
+	//if reach the end of t
+	if (tStart == t.length()) return 1;
+	if (s.charAt(sStart) == t.charAt(tStart)) {
+		return backtrack(s, t, sStart + 1, tStart, mem) + 
+					backtrack(s, t, sStart+1, tStart + 1, mem);
+	}
+	else return backtrack(s, t, sStart + 1, tStart, mem);
+    }
+
+    private void backtrack2(String s, String t, int sPos, int tPos, int[] storeCount) {
 	if (sPos > s.length()) return;
 	if (tPos >= t.length()) {
 		storeCount[0]++;
@@ -77,7 +102,7 @@ class Solution {
 	if (t.length() - tPos > s.length() - sPos) return;
 	for (int i = sPos; i < s.length(); i++) {
 		if (s.charAt(i) == t.charAt(tPos)) {
-			backtrack(s, t, i+1, tPos+1, storeCount);
+			backtrack2(s, t, i+1, tPos+1, storeCount);
 		}
 	}
     }

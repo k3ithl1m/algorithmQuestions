@@ -51,6 +51,35 @@
  */
 
 class Solution {
+
+    public int findMaxForm(String[] strs, int m,  int n) {
+	//edge cases
+	int[][][] cache = new int[strs.length][m][n];
+	for (int i = 0; i < strs.length; i++) {
+		
+	}	
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public int findMaxForm(String[] strs, int m, int n) {
 	//edge cases
 	int[][][] zeroesOnesCache = new int[strs.length+1][m+1][n+1];
