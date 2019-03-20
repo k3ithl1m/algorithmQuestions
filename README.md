@@ -278,6 +278,32 @@ integerStack.pop(); //-> pop an integer from the top of the stack		O(1)
 Honestly, if you use anything other than those few plus size and is empty, then you should use something else.
 
 
+
+#Deque
+=====
+Deque is a kind of hybrid between queue and stack. It has push pop and remove first and all those 
+mambo jambo that allows you to use it as both a queue and stack.
+The one thing to remember is that push and pops and peeks all puts it to the front of the deque
+Therefore if you wanna use stack commands like push pop and peek, then if you wanna use it like 
+a queue later on, you would have to use removeLast to make it FIFO
+```
+//FIFO
+Deque<Integer> integerDeque = new Deque<Integer>();
+integerDeque.push(1);
+integerDeque.addFirst(2);
+integerDeque.peekLast(); // 1
+integerDeque.removeLast();
+integerDeque.pollLast();
+
+//LIFO
+integerDeque.push(1);
+integerDeque.push(2);
+integerDeque.peek(); //2
+integerDeque.pop(); //2
+```
+
+
+
 #Set
 Sets allows you to check if something exists. It's basically a map, but theres no values.
 There are HashSet and TreeSet
