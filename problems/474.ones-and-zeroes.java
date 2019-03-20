@@ -51,7 +51,32 @@
  */
 
 class Solution {
+
     public int findMaxForm(String[] strs, int m, int n) {
+	//edge cases
+	int[][][] cache = new int[strs.length+1][m+1][n+1];
+	int max = 0;
+	for (int i = 1; i < strs.length+1; i++) {
+		int ones = 0;
+		int zeroes = 0;
+		for (int j = 0; j < strs[i-1].length(); j++) {
+			if (strs[i-1].charAt(j) == '0') zeroes++;
+			else ones++;
+		}
+		for (int j = 0; j < cache[0].length; j++) {
+			for (int k = 0; k < cache[0][0].length; k++) {
+				if (j - zeroes >= 0 && k- ones >= 0) {
+					cache[i][j][k] = Math.max(cache[i-1][j-zeroes][k-ones]+1, cache[i-1][j][k]);
+					max = Math.max(cache[i][j][k], max);
+				} else cache[i][j][k] = cache[i-1][j][k];
+			}
+		}
+	}
+
+	return max;
+    }
+
+    public int findMaxForm2(String[] strs, int m, int n) {
 	//edge cases
 	int[][][] zeroesOnesCache = new int[strs.length+1][m+1][n+1];
 

@@ -63,12 +63,23 @@
 class Solution {
     public int numDistinct(String s, String t) {
 	if (s.length() == 0) return 0;
-	int[] storeCount = new int[1];
-	backtrack(s, t, 0, 0, storeCount);
-	return storeCount[0];        
+	int[][] storeCount = new int[s.length()+1][t.length()+1];
+	for (int i = 0; i < storeCount.length; i++) Arrays.fill(storeCount[i], -1);
+	return backtrack(s, t, 0, 0, storeCount);
     }
 
-    private void backtrack(String s, String t, int sPos, int tPos, int[] storeCount) {
+    private int backtrack(String s, String t, int sPos, int tPos, int[][] storeCount) {
+	if (storeCount[sPos][tPos] != -1) return storeCount[sPos][tPos];
+	if (sPos == s.length() && tPos < t.length()) return storeCount[sPos][tPos] = 0;
+	if (tPos == t.length()) return storeCount[sPos][tPos] = 1;
+	if (s.charAt(sPos) == t.charAt(tPos)) {
+		return storeCount[sPos][tPos] = backtrack(s, t, sPos + 1, tPos, storeCount) 
+				+ backtrack(s, t, sPos + 1, tPos + 1, storeCount);
+	}
+	return storeCount[sPos][tPos] = backtrack(s, t, sPos+1, tPos, storeCount);
+    }
+
+    private void backtrack2(String s, String t, int sPos, int tPos, int[] storeCount) {
 	if (sPos > s.length()) return;
 	if (tPos >= t.length()) {
 		storeCount[0]++;
@@ -77,7 +88,7 @@ class Solution {
 	if (t.length() - tPos > s.length() - sPos) return;
 	for (int i = sPos; i < s.length(); i++) {
 		if (s.charAt(i) == t.charAt(tPos)) {
-			backtrack(s, t, i+1, tPos+1, storeCount);
+			backtrack2(s, t, i+1, tPos+1, storeCount);
 		}
 	}
     }
