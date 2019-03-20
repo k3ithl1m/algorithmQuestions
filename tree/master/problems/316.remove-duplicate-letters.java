@@ -30,6 +30,27 @@
  */
 class Solution {
     public String removeDuplicateLetters(String s) {
+	int[] map = new int[26];
+	boolean[] visited = new boolean[26];
+	char[] charArray = s.toCharArray();
+	for (char c : charArray) map[c-'a']++;
+	Deque<Character> charQueue = new LinkedList<>();
+	for (char c : charArray) {
+		map[c-'a']--;
+		if (visited[c-'a']) continue;
+		while(!charQueue.isEmpty() && c < charQueue.peekLast() 
+			&& map[charQueue.peekLast()-'a']!=0) {
+			visited[charQueue.pollLast() -'a'] = false;
+		}
+		charQueue.addLast(c);
+		visited[c-'a'] = true;
+ 	}
+	StringBuilder sb = new StringBuilder();
+	while (!charQueue.isEmpty()) sb.append(charQueue.removeFirst());
+	return sb.toString();
+    }
+
+    public String removeDuplicateLetters2(String s) {
 	int[] letterMap = new int[26];
 	boolean[] visited = new boolean[26];
 	for (int i = 0; i < s.length(); i++) letterMap[s.charAt(i) - 'a']++;
@@ -44,6 +65,7 @@ class Solution {
 			visited[charStack.pop() -'a'] = false;
 		}
 		charStack.push(c);
+		System.out.println(charStack.peek());
 		visited[c-'a'] = true;
 	}        
 
