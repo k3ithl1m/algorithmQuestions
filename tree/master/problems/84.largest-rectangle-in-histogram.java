@@ -42,10 +42,12 @@ class Solution {
 	if (heights.length == 0) return 0;
 	int max = 0;
 	Stack<Integer> positionStack = new Stack<>();
-	for (int i = 0; i <= heights.length; i++) {
+	int i = 0;
+	while (i <= heights.length) {
 		int height = (i == heights.length) ? 0 : heights[i];
 		if (positionStack.isEmpty() || height >= heights[positionStack.peek()]) {
 			positionStack.push(i);
+			i++;
 		} else {
 			int popped = positionStack.pop();
 			// We take the previous tallest height, and multiply it by rightindex(currentPosition)
@@ -54,7 +56,6 @@ class Solution {
 				(positionStack.isEmpty() ? i : i - 1 - positionStack.peek());
 			max = Math.max(max, currentMaxHeight);
 			//keeps the position in the same place
-			i--;
 		}
 	}        
 
