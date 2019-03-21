@@ -52,9 +52,9 @@ class Solution {
 			int popped = positionStack.pop();
 			// We take the previous tallest height, and multiply it by rightindex(currentPosition)
 			// with left, the position before it.
-			int currentMaxHeight = heights[popped] * 
+			int currentMaxArea = heights[popped] * 
 				(positionStack.isEmpty() ? i : i - 1 - positionStack.peek());
-			max = Math.max(max, currentMaxHeight);
+			max = Math.max(max, currentMaxArea);
 			//keeps the position in the same place
 		}
 	}        
