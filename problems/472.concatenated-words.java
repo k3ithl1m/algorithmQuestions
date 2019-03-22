@@ -40,8 +40,36 @@
  */
 class Solution {
     public List<String> findAllConcatenatedWordsInADict(String[] words) {
-	if (words.length == 0) return 0;
 	ArrayList<String> resultList = new ArrayList<>();
-        
+	if (words.length == 0) return resultList;
+        HashSet<String> map = new HashSet<>();
+	Arrays.sort(words, new Comparator<String>() {
+		@Override
+		public int compare(String s1, String s2) {
+			return s1.length() - s2.length();
+		}
+	});
+
+	for (int i = 0; i < words.length; i++) {
+		if (checkWord(words[i], map)) resultList.add(words[i]);
+		map.add(words[i]);
+	}
+	return resultList;
+    }
+
+    private boolean checkWord(String word, HashSet<String> map) {
+	if (word.length() == 0) return false;
+	boolean[] cache = new boolean[word.length() + 1];
+	cache[0] = true;
+	for (int i = 0; i <= word.length(); i++) {
+		for (int j = 0; j < i; j++) {
+			if (cache[j] && map.contains(word.substring(j, i))) {
+				cache[i] = true;
+				break;
+			}
+		}
+	}
+
+	return cache[word.length()];
     }
 }

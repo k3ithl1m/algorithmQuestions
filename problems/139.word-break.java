@@ -49,7 +49,51 @@
  * 
  */
 class Solution {
+
     public boolean wordBreak(String s, List<String> wordDict) {
+	if (s.length() == 0) return false;
+	HashSet<String> map = new HashSet<>();
+	for (int i = 0; i < wordDict.size(); i++) {
+		map.add(wordDict.get(i));
+	}
+	boolean[] cache = new boolean[s.length() + 1];
+	cache[0] = true;
+	
+	for (int i = 0; i < s.length() + 1; i++) {
+		for (int j = 0; j < i; j++) {
+			if (cache[j] && map.contains(s.substring(j, i))) {
+				cache[i] = true;
+				break;
+			}
+		}
+	}
+	return cache[s.length()];
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public boolean wordBreak2(String s, List<String> wordDict) {
 	boolean[] sAr = new boolean[s.length()];
 	
 	ArrayList<Integer> ar = new ArrayList<Integer>();
