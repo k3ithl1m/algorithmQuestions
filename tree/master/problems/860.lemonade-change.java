@@ -87,6 +87,28 @@
  */
 class Solution {
     public boolean lemonadeChange(int[] bills) {
+	int five = 0, ten = 0;
+	for (int i : bills) {
+		if (i == 5) five++;
+		else if (i == 10) {
+			five--;
+			ten++;
+		}
+		else {
+			if (ten > 0) {
+				ten--;
+				five--;
+			} else {
+				five -= 3;
+			}
+		}
+	
+		if (five < 0) return false;
+	}
+	return true;
+    }
+
+    public boolean lemonadeChange2(int[] bills) {
  	if (bills.length == 0) return true;
 	if (bills.length == 1) return bills[0] == 5;
 	TreeMap<Integer, Integer> map = new TreeMap<>(new Comparator<Integer>() {
